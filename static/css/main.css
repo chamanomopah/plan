@@ -459,6 +459,174 @@ body {
     }
 }
 
+/* Kanban Board */
+.kanban-board {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    min-height: 400px;
+}
+
+.kanban-column {
+    flex: 0 0 280px;
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
+
+.kanban-column h4 {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: var(--text-dark);
+}
+
+.kanban-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.kanban-card {
+    padding: 0.75rem;
+    background: var(--bg-light);
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+}
+
+/* Todo List */
+.todolist-container {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+}
+
+.todolist-items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.todolist-item {
+    padding: 0.75rem;
+    background: var(--bg-light);
+    border-radius: 0.375rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.todolist-item.completed {
+    opacity: 0.6;
+}
+
+/* Formulário */
+.formulario-display {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+}
+
+.formulario-display h3 {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.formulario-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.form-field-display {
+    padding: 0.75rem;
+    background: var(--bg-light);
+    border-radius: 0.375rem;
+}
+
+.form-field-display label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 0.25rem;
+}
+
+.form-value {
+    font-size: 0.875rem;
+}
+
+.user-input-select,
+.user-input-text {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    background: var(--bg-white);
+}
+
+.user-input-select:focus,
+.user-input-text:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Excalidraw */
+.excalidraw-diagram {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    padding: 2rem;
+    min-height: 400px;
+    text-align: center;
+}
+
+.excalidraw-info {
+    margin-bottom: 1rem;
+}
+
+.excalidraw-info p {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+/* Image Preview */
+.image-preview {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.preview-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.375rem;
+}
+
+/* Text Content */
+.text-content {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    overflow-x: auto;
+}
+
+.text-content pre {
+    margin: 0;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.875rem;
+    line-height: 1.6;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .sidebar {
@@ -479,5 +647,13 @@ body {
 
     .project-selector {
         width: 100%;
+    }
+
+    .kanban-board {
+        flex-direction: column;
+    }
+
+    .kanban-column {
+        flex: 1;
     }
 }

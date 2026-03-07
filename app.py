@@ -1,11 +1,10 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 import json
-import os
 from pathlib import Path
-from typing import Dict, Set, Any
+from typing import Dict, Set
 import asyncio
 from datetime import datetime
 from watchdog.observers import Observer
@@ -31,6 +30,77 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Store active WebSocket connections
 active_connections: Dict[str, Set[WebSocket]] = {}
+
+
+def _load_project_config(project_name: str) -> dict:
+    """Load project configuration from config.json file."""
+    config_file = Path(f"projetos/{project_name}/config.json")
+    if not config_file.exists():
+        return {}
+
+    try:
+        with open(config_file, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except (json.JSONDecodeError, IOError, OSError):
+        return {}
+
+
+def _apply_module_overrides(detection: dict, project_config: dict, file_name: str) -> dict:
+    """Apply module overrides from project config to detection result."""
+    if not project_config or "module_overrides" not in project_config:
+        return detection
+
+    if file_name in project_config["module_overrides"]:
+        override = project_config["module_overrides"][file_name]
+        if "module" in override:
+            detection["module"] = override["module"]
+
+    return detection
+
+
+async def _handle_subscribe(websocket: WebSocket, data: dict) -> tuple:
+    """Handle WebSocket subscribe message."""
+    project_name = data.get("project")
+    file_name = data.get("file")
+
+    if project_name and file_name:
+        key = f"{project_name}:{file_name}"
+        if key not in active_connections:
+            active_connections[key] = set()
+        active_connections[key].add(websocket)
+
+        # Confirma inscrição
+        await websocket.send_json({
+            "type": "subscribed",
+            "project": project_name,
+            "file": file_name
+        })
+
+    return project_name, file_name
+
+
+async def _handle_unsubscribe(websocket: WebSocket, project_name: str, file_name: str):
+    """Handle WebSocket unsubscribe message."""
+    if project_name and file_name:
+        key = f"{project_name}:{file_name}"
+        if key in active_connections:
+            active_connections[key].discard(websocket)
+            if not active_connections[key]:
+                del active_connections[key]
+
+    await websocket.send_json({
+        "type": "unsubscribed"
+    })
+
+
+def _remove_connection(websocket: WebSocket, project_name: str, file_name: str):
+    """Remove WebSocket connection from active connections."""
+    if project_name and file_name:
+        key = f"{project_name}:{file_name}"
+        if key in active_connections:
+            active_connections[key].discard(websocket)
+            if not active_connections[key]:
+                del active_connections[key]
 
 
 class FileWatcherHandler(FileSystemEventHandler):
@@ -158,7 +228,7 @@ async def list_projects():
                     try:
                         with open(config_file, 'r', encoding='utf-8') as f:
                             config = json.load(f)
-                    except:
+                    except (json.JSONDecodeError, IOError, OSError):
                         pass
 
                 projects.append({
@@ -227,22 +297,9 @@ async def get_file(project_name: str, file_name: str):
         # Lê conteúdo
         content = get_file_content(str(file_path))
 
-        # Carrega config do projeto para verificar overrides de módulo
-        project_config = {}
-        config_file = Path(f"projetos/{project_name}/config.json")
-        if config_file.exists():
-            try:
-                with open(config_file, 'r', encoding='utf-8') as f:
-                    project_config = json.load(f)
-            except:
-                pass
-
-        # Verifica se há override de módulo para este arquivo
-        if project_config and "module_overrides" in project_config:
-            if file_name in project_config["module_overrides"]:
-                override = project_config["module_overrides"][file_name]
-                if "module" in override:
-                    detection["module"] = override["module"]
+        # Carrega config do projeto e aplica overrides
+        project_config = _load_project_config(project_name)
+        detection = _apply_module_overrides(detection, project_config, file_name)
 
         return {
             "name": file_name,
@@ -334,10 +391,6 @@ async def get_module_html(module_name: str):
         if not module_path.exists():
             raise HTTPException(status_code=404, detail="Module not found")
 
-        # Lê o módulo
-        with open(module_path, 'r', encoding='utf-8') as f:
-            module_content = f.read()
-
         # Retorna informações sobre o módulo
         return {
             "name": module_name,
@@ -369,43 +422,15 @@ async def websocket_endpoint(websocket: WebSocket):
 
             if message_type == "subscribe":
                 # Cliente se inscreve para receber atualizações de um arquivo
-                project_name = data.get("project")
-                file_name = data.get("file")
-
-                if project_name and file_name:
-                    key = f"{project_name}:{file_name}"
-                    if key not in active_connections:
-                        active_connections[key] = set()
-                    active_connections[key].add(websocket)
-
-                    # Confirma inscrição
-                    await websocket.send_json({
-                        "type": "subscribed",
-                        "project": project_name,
-                        "file": file_name
-                    })
+                project_name, file_name = await _handle_subscribe(websocket, data)
 
             elif message_type == "unsubscribe":
                 # Cliente cancela inscrição
-                if project_name and file_name:
-                    key = f"{project_name}:{file_name}"
-                    if key in active_connections:
-                        active_connections[key].discard(websocket)
-                        if not active_connections[key]:
-                            del active_connections[key]
-
-                await websocket.send_json({
-                    "type": "unsubscribed"
-                })
+                await _handle_unsubscribe(websocket, project_name, file_name)
 
     except WebSocketDisconnect:
         # Remove conexão da lista de ativas
-        if project_name and file_name:
-            key = f"{project_name}:{file_name}"
-            if key in active_connections:
-                active_connections[key].discard(websocket)
-                if not active_connections[key]:
-                    del active_connections[key]
+        _remove_connection(websocket, project_name, file_name)
     except Exception as e:
         print(f"WebSocket error: {e}")
 

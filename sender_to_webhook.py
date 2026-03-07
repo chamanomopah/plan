@@ -70,7 +70,7 @@ async def send_to_webhook(
             # Tenta ler resposta como JSON
             try:
                 result["response"] = response.json()
-            except:
+            except (json.JSONDecodeError, ValueError):
                 # Se não for JSON, lê como texto
                 result["response"] = response.text
 
