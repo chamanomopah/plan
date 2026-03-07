@@ -1,0 +1,495 @@
+// API Base URL
+const API_BASE = window.location.origin;
+
+// State
+let currentProject = null;
+let currentFile = null;
+let currentFileType = null;
+let webhooksConfig = null;
+let ws = null;
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+    initializeApp();
+});
+
+async function initializeApp() {
+    // Initialize Mermaid
+    mermaid.initialize({
+        startOnLoad: false,
+        theme: 'default',
+        securityLevel: 'loose'
+    });
+
+    // Load webhooks config
+    await loadWebhooksConfig();
+
+    // Load projects
+    await loadProjects();
+
+    // Setup event listeners
+    setupEventListeners();
+
+    // Connect WebSocket
+    connectWebSocket();
+}
+
+function setupEventListeners() {
+    // Project selector
+    document.getElementById('projectSelector').addEventListener('change', (e) => {
+        const project = e.target.value;
+        if (project) {
+            loadProjectFiles(project);
+        }
+    });
+
+    // Reload button
+    document.getElementById('reloadBtn').addEventListener('click', () => {
+        if (currentProject) {
+            loadProjectFiles(currentProject);
+        }
+        showToast('Recarregado!', 'success');
+    });
+
+    // Configure webhook button
+    document.getElementById('configureWebhookBtn').addEventListener('click', () => {
+        const newUrl = prompt('Insira a URL do webhook:', getCurrentWebhook());
+        if (newUrl !== null) {
+            updateWebhookUrl(newUrl);
+        }
+    });
+
+    // Send button
+    document.getElementById('sendBtn').addEventListener('click', sendToWebhook);
+}
+
+// API Calls
+async function loadWebhooksConfig() {
+    try {
+        const response = await fetch(`${API_BASE}/api/webhooks/config`);
+        webhooksConfig = await response.json();
+        updateWebhookDisplay();
+    } catch (error) {
+        console.error('Error loading webhooks config:', error);
+    }
+}
+
+async function loadProjects() {
+    try {
+        const response = await fetch(`${API_BASE}/api/projects`);
+        const projects = await response.json();
+
+        const selector = document.getElementById('projectSelector');
+        selector.innerHTML = '<option value="">Selecione um projeto...</option>';
+
+        projects.forEach(project => {
+            const option = document.createElement('option');
+            option.value = project.name;
+            option.textContent = `${project.icon} ${project.display_name}`;
+            selector.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error loading projects:', error);
+        showToast('Erro ao carregar projetos', 'error');
+    }
+}
+
+async function loadProjectFiles(projectName) {
+    try {
+        showLoading();
+
+        const response = await fetch(`${API_BASE}/api/projects/${projectName}/files`);
+        const files = await response.json();
+
+        currentProject = projectName;
+
+        // Display files in sidebar
+        const filesList = document.getElementById('filesList');
+        filesList.innerHTML = '';
+
+        if (files.length === 0) {
+            filesList.innerHTML = '<p class="text-muted">Nenhum arquivo encontrado</p>';
+        } else {
+            files.forEach(file => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                fileItem.dataset.file = file.name;
+
+                fileItem.innerHTML = `
+                    <span class="file-icon">📄</span>
+                    <span class="file-name">${file.name}</span>
+                    <span class="file-badge">${file.type}</span>
+                `;
+
+                fileItem.addEventListener('click', () => loadFile(projectName, file.name));
+                filesList.appendChild(fileItem);
+            });
+        }
+
+        // Update webhook display
+        updateWebhookDisplay();
+
+        hideLoading();
+    } catch (error) {
+        console.error('Error loading project files:', error);
+        showToast('Erro ao carregar arquivos do projeto', 'error');
+        hideLoading();
+    }
+}
+
+async function loadFile(projectName, fileName) {
+    try {
+        showLoading();
+
+        const response = await fetch(`${API_BASE}/api/files/${projectName}/${fileName}`);
+        const fileData = await response.json();
+
+        currentFile = fileName;
+        currentFileType = fileData.metadata;
+
+        // Update file header
+        document.getElementById('currentFileName').textContent = fileData.name;
+        document.getElementById('fileType').textContent = fileData.metadata.module;
+        document.getElementById('fileModified').textContent = new Date(fileData.metadata.modified * 1000).toLocaleString();
+
+        // Update active file in sidebar
+        document.querySelectorAll('.file-item').forEach(item => {
+            item.classList.remove('active');
+            if (item.dataset.file === fileName) {
+                item.classList.add('active');
+            }
+        });
+
+        // Enable send button
+        document.getElementById('sendBtn').disabled = false;
+
+        // Render content based on module
+        await renderFileContent(fileData);
+
+        // Render user input based on module
+        renderUserInput(fileData);
+
+        hideLoading();
+    } catch (error) {
+        console.error('Error loading file:', error);
+        showToast('Erro ao carregar arquivo', 'error');
+        hideLoading();
+    }
+}
+
+async function renderFileContent(fileData) {
+    const container = document.getElementById('visualizationContainer');
+    const module = fileData.metadata.module;
+
+    switch (module) {
+        case 'html_preview':
+            renderHTMLPreview(fileData.content, container);
+            break;
+        case 'meirmaid':
+            await renderMermaidDiagram(fileData.content, container);
+            break;
+        case 'claudeCode_askQuestionTool':
+            renderAskQuestionTool(fileData.content, container);
+            break;
+        default:
+            renderTextContent(fileData.content, container);
+    }
+}
+
+function renderHTMLPreview(content, container) {
+    container.innerHTML = `
+        <div class="html-preview">
+            <iframe id="htmlPreviewFrame" sandbox="allow-same-origin"></iframe>
+        </div>
+    `;
+
+    const iframe = document.getElementById('htmlPreviewFrame');
+    const doc = iframe.contentDocument || iframe.contentWindow.document;
+    doc.open();
+    doc.write(content);
+    doc.close();
+}
+
+async function renderMermaidDiagram(content, container) {
+    container.innerHTML = `
+        <div class="mermaid-diagram">
+            <pre class="mermaid">${content}</pre>
+        </div>
+    `;
+
+    // Render Mermaid
+    await mermaid.run();
+}
+
+function renderAskQuestionTool(content, container) {
+    try {
+        const data = JSON.parse(content);
+
+        let html = '<div class="options-display">';
+        html += `<h3>${data.question || 'Selecione as opções:'}</h3>`;
+        html += '<div class="option-list">';
+
+        if (data.options && Array.isArray(data.options)) {
+            data.options.forEach(option => {
+                const selected = option.selected ? 'selected' : '';
+                html += `
+                    <div class="option-item-display ${selected}">
+                        <span>${option.selected ? '✓' : '○'}</span>
+                        <span>${option.text || option.id}</span>
+                    </div>
+                `;
+            });
+        }
+
+        html += '</div></div>';
+        container.innerHTML = html;
+    } catch (error) {
+        console.error('Error parsing askQuestionTool:', error);
+        renderTextContent(content, container);
+    }
+}
+
+function renderTextContent(content, container) {
+    container.innerHTML = `
+        <div class="text-content">
+            <pre style="white-space: pre-wrap; word-wrap: break-word;">${escapeHtml(content)}</pre>
+        </div>
+    `;
+}
+
+function renderUserInput(fileData) {
+    const container = document.getElementById('userInputContainer');
+    const module = fileData.metadata.module;
+
+    switch (module) {
+        case 'claudeCode_askQuestionTool':
+            renderAskQuestionToolInput(fileData.content, container);
+            break;
+        default:
+            renderDefaultInput(container);
+    }
+}
+
+function renderDefaultInput(container) {
+    container.innerHTML = `
+        <textarea id="userInput" class="user-input-textarea" placeholder="Digite seu input aqui..."></textarea>
+    `;
+}
+
+function renderAskQuestionToolInput(content, container) {
+    try {
+        const data = JSON.parse(content);
+
+        let html = '<div class="options-input">';
+        html += `<p style="margin-bottom: 0.75rem; font-size: 0.875rem;">${data.question || 'Selecione as opções:'}</p>`;
+
+        if (data.options && Array.isArray(data.options)) {
+            const inputType = data.allow_multiple ? 'checkbox' : 'radio';
+            const inputName = 'askQuestionOptions';
+
+            data.options.forEach(option => {
+                html += `
+                    <div class="option-item">
+                        <input type="${inputType}" name="${inputName}" id="opt_${option.id}" value="${option.id}" ${option.selected ? 'checked' : ''}>
+                        <label for="opt_${option.id}">${option.text || option.id}</label>
+                    </div>
+                `;
+            });
+        }
+
+        html += '</div>';
+        html += `<textarea id="userInputComment" class="user-input-textarea" placeholder="Adicione um comentário (opcional)..." style="margin-top: 0.75rem;"></textarea>`;
+
+        container.innerHTML = html;
+    } catch (error) {
+        console.error('Error rendering askQuestionTool input:', error);
+        renderDefaultInput(container);
+    }
+}
+
+// WebSocket
+function connectWebSocket() {
+    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const wsUrl = `${protocol}//${window.location.host}/ws`;
+
+    ws = new WebSocket(wsUrl);
+
+    ws.onopen = () => {
+        console.log('WebSocket connected');
+    };
+
+    ws.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        handleWebSocketMessage(data);
+    };
+
+    ws.onerror = (error) => {
+        console.error('WebSocket error:', error);
+    };
+
+    ws.onclose = () => {
+        console.log('WebSocket disconnected, reconnecting...');
+        setTimeout(connectWebSocket, 3000);
+    };
+}
+
+async function handleWebSocketMessage(data) {
+    if (data.type === 'file_updated') {
+        // Check if it's the current file
+        if (data.project === currentProject && data.file === currentFile) {
+            // Update visualization only (preserve sidebar input)
+            await renderFileContent({
+                content: data.content,
+                metadata: data.metadata
+            });
+
+            // Update file metadata
+            document.getElementById('fileModified').textContent = new Date(data.timestamp).toLocaleString();
+
+            showToast('Arquivo atualizado!', 'success');
+        }
+    }
+}
+
+// Subscribe to file updates
+function subscribeToFile() {
+    if (ws && ws.readyState === WebSocket.OPEN && currentProject && currentFile) {
+        ws.send(JSON.stringify({
+            type: 'subscribe',
+            project: currentProject,
+            file: currentFile
+        }));
+    }
+}
+
+// Send to Webhook
+async function sendToWebhook() {
+    if (!currentProject || !currentFile) {
+        showToast('Selecione um arquivo primeiro', 'warning');
+        return;
+    }
+
+    try {
+        showLoading();
+
+        const userInput = collectUserInput();
+
+        const payload = {
+            project: currentProject,
+            file: currentFile,
+            user_input: userInput
+        };
+
+        const response = await fetch(`${API_BASE}/api/send-webhook`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            showToast('Enviado para webhook com sucesso!', 'success');
+            // Subscribe to updates for this file
+            subscribeToFile();
+        } else {
+            showToast(`Erro ao enviar: ${result.error || 'Erro desconhecido'}`, 'error');
+        }
+
+        hideLoading();
+    } catch (error) {
+        console.error('Error sending to webhook:', error);
+        showToast('Erro ao enviar para webhook', 'error');
+        hideLoading();
+    }
+}
+
+function collectUserInput() {
+    const module = currentFileType?.module;
+
+    switch (module) {
+        case 'claudeCode_askQuestionTool':
+            return collectAskQuestionToolInput();
+        default:
+            return {
+                type: 'text',
+                data: document.getElementById('userInput')?.value || ''
+            };
+    }
+}
+
+function collectAskQuestionToolInput() {
+    const checkedInputs = document.querySelectorAll('input[name="askQuestionOptions"]:checked');
+    const selectedOptions = Array.from(checkedInputs).map(input => input.value);
+    const comment = document.getElementById('userInputComment')?.value || '';
+
+    return {
+        type: 'options',
+        data: {
+            selected: selectedOptions,
+            comment: comment
+        }
+    };
+}
+
+// Webhook Helpers
+function getCurrentWebhook() {
+    if (!webhooksConfig) return '';
+
+    // Try project specific webhook
+    if (currentProject && webhooksConfig.projects && webhooksConfig.projects[currentProject]) {
+        const projectConfig = webhooksConfig.projects[currentProject];
+        if (projectConfig.webhook) {
+            return projectConfig.webhook;
+        }
+    }
+
+    // Fallback to global webhook
+    return webhooksConfig.global?.default_webhook || '';
+}
+
+function updateWebhookDisplay() {
+    const webhookUrl = getCurrentWebhook();
+    document.getElementById('webhookUrl').textContent = webhookUrl || 'Não configurado';
+}
+
+function updateWebhookUrl(newUrl) {
+    // This would update the webhooks.json file
+    // For now, just show a message
+    showToast('URL do webhook atualizada (não persistida)', 'success');
+    document.getElementById('webhookUrl').textContent = newUrl;
+}
+
+// Utility Functions
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+function showLoading() {
+    document.getElementById('loadingOverlay').style.display = 'flex';
+}
+
+function hideLoading() {
+    document.getElementById('loadingOverlay').style.display = 'none';
+}
+
+function showToast(message, type = 'info') {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.className = `toast ${type} show`;
+
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 3000);
+}
+
+// Auto-subscribe when file changes
+const originalLoadFile = loadFile;
+loadFile = async function(projectName, fileName) {
+    await originalLoadFile(projectName, fileName);
+    subscribeToFile();
+};

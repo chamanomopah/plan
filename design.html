@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Viewer - N8N Workflows</title>
+    <link rel="stylesheet" href="/static/css/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <select id="projectSelector" class="project-selector">
+                <option value="">Selecione um projeto...</option>
+            </select>
+        </div>
+        <div class="header-center">
+            <h1>Project Viewer</h1>
+        </div>
+        <div class="header-right">
+            <button id="reloadBtn" class="btn btn-secondary">
+                <span>↻</span> Recarregar
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <!-- Webhook Configuration -->
+            <div class="sidebar-section">
+                <h3>Configuração de Webhook</h3>
+                <div class="webhook-display">
+                    <span id="webhookUrl" class="webhook-url">Carregando...</span>
+                    <button id="configureWebhookBtn" class="btn btn-small">Configurar</button>
+                </div>
+            </div>
+
+            <!-- User Input Area -->
+            <div class="sidebar-section">
+                <h3>Seu Input</h3>
+                <div id="userInputContainer" class="user-input-container">
+                    <!-- Input será renderizado aqui pelo módulo -->
+                    <textarea id="defaultInput" class="user-input-textarea" placeholder="Seu input aparecerá aqui..."></textarea>
+                </div>
+            </div>
+
+            <!-- Send Button -->
+            <div class="sidebar-section">
+                <button id="sendBtn" class="btn btn-primary btn-block" disabled>
+                    Enviar para Webhook ►
+                </button>
+            </div>
+
+            <!-- Project Files -->
+            <div class="sidebar-section">
+                <h3>Arquivos do Projeto</h3>
+                <div id="filesList" class="files-list">
+                    <p class="text-muted">Selecione um projeto primeiro</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Visualization Area -->
+        <main class="visualization-area">
+            <div class="file-header">
+                <h2 id="currentFileName">Nenhum arquivo selecionado</h2>
+                <div class="file-meta">
+                    <span id="fileType" class="badge">-</span>
+                    <span id="fileModified" class="text-muted">-</span>
+                </div>
+            </div>
+
+            <div id="visualizationContainer" class="visualization-container">
+                <div class="empty-state">
+                    <div class="empty-icon">📄</div>
+                    <p>Selecione um arquivo para visualizar</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="spinner"></div>
+    </div>
+
+    <script src="/static/js/main.js"></script>
+</body>
+</html>

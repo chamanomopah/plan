@@ -1,0 +1,10 @@
+{
+  "webhook": "https://maceio-n8n-alfa42.serveousercontent.com/webhook/plan",
+  "display_name": "Hero Page Design",
+  "icon": "🎨",
+  "module_overrides": {
+    "design.html": {
+      "module": "html_preview"
+    }
+  }
+}

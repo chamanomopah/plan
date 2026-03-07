@@ -1,1 +1,27 @@
-gh
+{
+  "type": "askQuestionTool",
+  "question": "Qual tecnologia você prefere para o backend?",
+  "options": [
+    {
+      "id": "python",
+      "text": "Python (FastAPI, Django, Flask)",
+      "selected": true
+    },
+    {
+      "id": "node",
+      "text": "Node.js (Express, NestJS)",
+      "selected": false
+    },
+    {
+      "id": "java",
+      "text": "Java (Spring Boot)",
+      "selected": false
+    },
+    {
+      "id": "go",
+      "text": "Go (Gin, Echo)",
+      "selected": false
+    }
+  ],
+  "allow_multiple": false
+}

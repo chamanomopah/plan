@@ -1,0 +1,24 @@
+{
+  "global": {
+    "default_webhook": "https://maceio-n8n-alfa42.serveousercontent.com/webhook/plan",
+    "timeout": 30,
+    "retry_attempts": 3
+  },
+  "projects": {
+    "heroPage_design": {
+      "webhook": "https://maceio-n8n-alfa42.serveousercontent.com/webhook/plan",
+      "override_global": true
+    },
+    "qualification_questions": {
+      "webhook": "https://maceio-n8n-alfa42.serveousercontent.com/webhook/plan",
+      "files": {
+        "askQuestionTool1": {
+          "webhook": "https://maceio-n8n-alfa42.serveousercontent.com/webhook/plan"
+        }
+      }
+    },
+    "sdlcWorkflow_structure": {
+      "webhook": "https://maceio-n8n-alfa42.serveousercontent.com/webhook/plan"
+    }
+  }
+}

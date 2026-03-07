@@ -1,0 +1,37 @@
+{
+  "type": "askQuestionTool",
+  "question": "Quais recursos você considera mais importantes para o seu projeto?",
+  "options": [
+    {
+      "id": "ui",
+      "text": "Interface do Usuário (UI) moderna e responsiva",
+      "selected": true
+    },
+    {
+      "id": "api",
+      "text": "API RESTful robusta e documentada",
+      "selected": false
+    },
+    {
+      "id": "auth",
+      "text": "Sistema de autenticação e autorização",
+      "selected": true
+    },
+    {
+      "id": "db",
+      "text": "Banco de dados escalável",
+      "selected": false
+    },
+    {
+      "id": "realtime",
+      "text": "Atualizações em tempo real (WebSocket)",
+      "selected": true
+    },
+    {
+      "id": "analytics",
+      "text": "Dashboard de analytics e relatórios",
+      "selected": false
+    }
+  ],
+  "allow_multiple": true
+}

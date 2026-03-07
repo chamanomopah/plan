@@ -1,1 +1,28 @@
-A Mermaid file is a plain text file containing Mermaid syntax, which is a Markdown-inspired language used to generate diagrams and charts. The recommended file extensions for these files are .mermaid or .mmd
+flowchart TD
+    Start([Início]) --> Planning[Planejamento]
+    Planning --> Analysis[Análise de Requisitos]
+    Analysis --> Design[Design e Arquitetura]
+
+    Design --> Development{Desenvolvimento}
+    Development --> Frontend[Frontend]
+    Development --> Backend[Backend]
+    Development --> Database[Database]
+
+    Frontend --> Testing[Testing]
+    Backend --> Testing
+    Database --> Testing
+
+    Testing --> Review{Code Review}
+    Review -->|Aprovações| Deploy[Deploy]
+    Review -->|Correções| Development
+
+    Deploy --> Monitoring[Monitoramento]
+    Monitoring --> Maintenance[Manutenção]
+
+    Maintenance -->|Novas Features| Planning
+    Maintenance -->|Bugs| Analysis
+
+    style Start fill:#90EE90
+    style Deploy fill:#87CEEB
+    style Testing fill:#FFD700
+    style Review fill:#FFA500
