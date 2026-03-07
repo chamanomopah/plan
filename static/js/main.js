@@ -181,6 +181,21 @@ async function renderFileContent(fileData) {
     const container = document.getElementById('visualizationContainer');
     const module = fileData.metadata.module;
 
+    try {
+        // Try dynamic module loading first
+        const response = await fetch(`${API_BASE}/api/modules/${module}?content=${encodeURIComponent(fileData.content)}`);
+        if (response.ok) {
+            const moduleData = await response.json();
+            if (moduleData.visualization_html) {
+                container.innerHTML = moduleData.visualization_html;
+                return;
+            }
+        }
+    } catch (error) {
+        console.error('Error loading module HTML:', error);
+    }
+
+    // Fallback to hardcoded rendering
     switch (module) {
         case 'html_preview':
             renderHTMLPreview(fileData.content, container);
@@ -257,10 +272,25 @@ function renderTextContent(content, container) {
     `;
 }
 
-function renderUserInput(fileData) {
+async function renderUserInput(fileData) {
     const container = document.getElementById('userInputContainer');
     const module = fileData.metadata.module;
 
+    try {
+        // Try dynamic module loading first
+        const response = await fetch(`${API_BASE}/api/modules/${module}?content=${encodeURIComponent(fileData.content)}`);
+        if (response.ok) {
+            const moduleData = await response.json();
+            if (moduleData.user_input_html) {
+                container.innerHTML = moduleData.user_input_html;
+                return;
+            }
+        }
+    } catch (error) {
+        console.error('Error loading module input HTML:', error);
+    }
+
+    // Fallback to hardcoded rendering
     switch (module) {
         case 'claudeCode_askQuestionTool':
             renderAskQuestionToolInput(fileData.content, container);

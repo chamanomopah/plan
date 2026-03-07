@@ -381,8 +381,36 @@ async def get_webhooks_config():
         raise HTTPException(status_code=500, detail=str(e))
 
 
+def _get_module_render_function(module, module_name: str):
+    """
+    Obtém a função de renderização correta do módulo.
+    Lida com variações de nomes de função.
+    """
+    # Tenta nome específico do módulo primeiro
+    render_func_name = f"render_{module_name}"
+    render_func = getattr(module, render_func_name, None)
+
+    # Tenta função genérica
+    if render_func is None:
+        render_func = getattr(module, 'render_html', None)
+
+    # Mapeamentos especiais para inconsistências
+    if render_func is None:
+        special_mappings = {
+            'html_preview': 'render_html_preview',
+            'meirmaid': 'render_mermaid',
+            'claudeCode_askQuestionTool': 'render_ask_question_tool'
+        }
+        for module_type, func_name in special_mappings.items():
+            if module_name == module_type:
+                render_func = getattr(module, func_name, None)
+                break
+
+    return render_func
+
+
 @app.get("/api/modules/{module_name}")
-async def get_module_html(module_name: str):
+async def get_module_html(module_name: str, content: str = ""):
     """
     Retorna o HTML/JS de um módulo para renderização no frontend.
     """
@@ -391,11 +419,38 @@ async def get_module_html(module_name: str):
         if not module_path.exists():
             raise HTTPException(status_code=404, detail="Module not found")
 
-        # Retorna informações sobre o módulo
+        # Importa o módulo dinamicamente
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(module_name, module_path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+
+        # Chama função de renderização
+        render_func = _get_module_render_function(module, module_name)
+        visualization_html = ""
+        if render_func:
+            visualization_html = render_func(content)
+
+        # Chama função de input do usuário
+        import inspect
+        input_html_func = getattr(module, 'get_user_input_html', None)
+        user_input_html = ""
+        if input_html_func:
+            # Verifica se a função aceita parâmetros
+            sig = inspect.signature(input_html_func)
+            if len(sig.parameters) > 0:
+                user_input_html = input_html_func(content)
+            else:
+                user_input_html = input_html_func()
+
+        # Retorna informações e HTML renderizado
         return {
             "name": module_name,
             "path": str(module_path),
-            "exists": True
+            "exists": True,
+            "visualization_html": visualization_html,
+            "user_input_html": user_input_html,
+            "module_info": getattr(module, 'get_module_info', lambda: {})()
         }
 
     except HTTPException:
