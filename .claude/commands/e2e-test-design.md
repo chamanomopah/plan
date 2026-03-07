@@ -1,245 +1,219 @@
 ---
 name: e2e-test-design
-description: Design E2E tests following user-story-driven patterns with verification checkpoints. Use when creating end-to-end tests, validating complete user journeys, or designing Playwright/Cypress test patterns.
-allowed-tools: Read, Grep
+description: Automatically analyze implemented plan and generate comprehensive E2E tests. Use after implementation to create validation tests based on specs/plan analysis.
+argument-hint: [spec-file-path]
+allowed-tools: Read, Grep, Glob, Write
 ---
 
-# E2E Test Design Skill
+# E2E Test Design Generator
 
-Design end-to-end tests that validate complete user journeys.
+Automatically analyze implemented plan and generate comprehensive E2E tests based on spec file analysis.
 
-## When to Use
+## Variables
 
-- Creating E2E tests for new features
-- Designing regression tests for critical paths
-- Building automated user flow validation
-- Documenting expected user behavior
+- `spec_file`: $1 - Path to the spec/plan file to analyze (default: searches specs/ directory)
 
-## E2E Test Specification Template
+## Instructions
+
+1. **Locate and Read Spec File**: Load the spec file to understand what was implemented
+2. **Analyze Implementation**: Detect project structure and identify what needs testing
+3. **Generate Test Strategy**: Create comprehensive E2E tests based on implementation analysis
+4. **Create Test Files**: Generate individual test files for each user journey
+5. **Report Results**: Return summary of created tests
+
+## Auto-Analysis Process
+
+### 1. Spec Analysis
+
+When executed, automatically:
+
+1. **Read the spec file** to understand:
+   - Plan type (Chore, Bug, or Feature)
+   - User stories and requirements
+   - Implementation details
+   - Relevant files and changes
+   - Acceptance criteria
+
+2. **Detect project structure**:
+   - Technology stack (web, mobile, API, etc.)
+   - Testing frameworks available
+   - Entry points and routes
+   - Key components and interactions
+
+3. **Generate test strategy** based on:
+   - **Chore plans**: Focus on validation tests for maintenance changes
+   - **Bug plans**: Focus on regression and reproduction scenario tests
+   - **Feature plans**: Focus on complete user journey and acceptance criteria tests
+
+### 2. Test Generation Logic
+
+For each plan type, generate appropriate E2E tests:
+
+**Chore Plans:**
+- Validation tests for each step in "Step by Step Tasks"
+- Regression tests for affected functionality
+- Performance verification if applicable
+
+**Bug Plans:**
+- Reproduction test matching "Steps to Reproduce"
+- Fix verification test
+- Regression tests for related functionality
+
+**Feature Plans:**
+- Complete user journey tests for each user story
+- Individual component/feature tests
+- Edge case and error handling tests
+- Integration tests based on "Testing Strategy"
+
+### 3. Test Creation
+
+Create individual test files following this structure:
 
 ```markdown
 # E2E Test: [Test Name]
 
 ## User Story
+[From spec or derived from implementation]
 
-As a [user type]
-I want to [action]
-So that [benefit]
+## Test Environment
+- Base URL: [Detected or default]
+- Test Data: [Generated test data]
 
 ## Test Steps
-
-1. Navigate to [URL]
-2. Take screenshot of initial state
-3. **Verify** [element/condition] is present
-4. [Action] - Click/Enter/Select
-5. Take screenshot of [state]
-6. **Verify** [expected result]
-7. [Continue steps...]
+1. [Specific step with verification points]
+2. **Verify** [Expected state]
+3. [Continue steps...]
 
 ## Success Criteria
-
-- [ ] [Criterion 1]
+- [ ] [Criterion 1 - from acceptance criteria]
 - [ ] [Criterion 2]
-- [ ] [Criterion 3]
-```
+- [ ] [Continue criteria]
 
-## Design Workflow
-
-### Step 1: Define User Story
-
-Start with the user's perspective:
-
-```markdown
-## User Story
-
-As a registered user
-I want to reset my password
-So that I can regain access to my account
-```
-
-### Step 2: Map the User Journey
-
-Identify each step the user takes:
-
-1. User navigates to login page
-2. User clicks "Forgot Password"
-3. User enters email
-4. User submits form
-5. User receives confirmation message
-6. User checks email (out of scope for E2E)
-
-### Step 3: Add Verification Points
-
-Mark critical checkpoints with **Verify**:
-
-```markdown
-## Test Steps
-
-1. Navigate to /login
-2. Take screenshot of login page
-3. **Verify** "Forgot Password" link is visible
-4. Click "Forgot Password" link
-5. **Verify** password reset form appears
-6. Enter email: "test@example.com"
-7. Take screenshot of filled form
-8. Click "Send Reset Link" button
-9. **Verify** success message appears
-10. Take screenshot of confirmation
-```
-
-### Step 4: Define Success Criteria
-
-Clear pass/fail conditions:
-
-```markdown
-## Success Criteria
-
-- [ ] Forgot password link is accessible
-- [ ] Form accepts valid email
-- [ ] Success message displayed after submission
-- [ ] No error states encountered
-- [ ] 3 screenshots captured
-```
-
-### Step 5: Add Structured Output
-
-Define the expected result format:
-
-```json
+## Expected Output
 {
-  "test_name": "Password Reset Flow",
+  "test_name": "[Test Name]",
   "status": "passed|failed",
-  "screenshots": [
-    "screenshots/01_login_page.png",
-    "screenshots/02_filled_form.png",
-    "screenshots/03_confirmation.png"
-  ],
+  "screenshots": ["screenshots/[test-name]/..."],
   "error": null
 }
 ```
 
-## Common E2E Test Patterns
+### 4. Output Organization
 
-### Authentication Flow
+Create tests in organized structure:
 
-```markdown
-# E2E Test: User Login
-
-## User Story
-As a user, I want to log in so I can access my account.
-
-## Test Steps
-1. Navigate to /login
-2. **Verify** login form is visible
-3. Enter username
-4. Enter password
-5. Click "Login" button
-6. **Verify** redirected to /dashboard
-7. **Verify** user name displayed in header
+```
+.claude/
+  e2e-tests/
+    [plan-name]/
+      01-[test-name].md
+      02-[test-name].md
+      ...
+      test-summary.json
 ```
 
-### Form Submission
+## Test Coverage Matrix
 
-```markdown
-# E2E Test: Contact Form
+Generate tests based on plan complexity:
 
-## User Story
-As a visitor, I want to submit a contact form.
+| Plan Type | Min Tests | Focus Areas |
+|-----------|-----------|-------------|
+| **Chore** | 1-2 | Step validation, affected areas |
+| **Bug** | 2-3 | Reproduction, fix verification, regression |
+| **Feature** | 3+ | User journeys, acceptance criteria, edge cases |
 
-## Test Steps
-1. Navigate to /contact
-2. **Verify** form has all required fields
-3. Fill name, email, message
-4. Click "Submit"
-5. **Verify** success message appears
-6. **Verify** form is reset
-```
+## Output Format
 
-### Error Handling
-
-```markdown
-# E2E Test: Invalid Login
-
-## User Story
-As a user, I want to see clear errors for invalid credentials.
-
-## Test Steps
-1. Navigate to /login
-2. Enter invalid credentials
-3. Click "Login"
-4. **Verify** error message appears
-5. **Verify** still on login page
-6. **Verify** password field is cleared
-```
-
-### Security Boundary
-
-```markdown
-# E2E Test: SQL Injection Protection
-
-## User Story
-As a user, I should be protected from injection attacks.
-
-## Test Steps
-1. Navigate to search page
-2. Enter: "'; DROP TABLE users; --"
-3. Click search
-4. **Verify** error or sanitized response
-5. **Verify** no database damage
-```
-
-## Screenshot Best Practices
-
-1. **Capture at key states**: Initial, after action, final
-2. **Name descriptively**: `01_initial_state.png`, `02_after_click.png`
-3. **Organize by test**: `screenshots/test-name/`
-4. **Keep for debugging**: Screenshots help diagnose failures
-
-## E2E Test Output Format
-
-For automation and resolution:
+After generating tests, return JSON summary:
 
 ```json
 {
-  "test_name": "User Login",
-  "status": "passed",
-  "screenshots": [
-    "screenshots/user-login/01_login_page.png",
-    "screenshots/user-login/02_dashboard.png"
+  "plan_analyzed": "specs/feature-example.md",
+  "plan_type": "Feature",
+  "tests_created": 5,
+  "test_files": [
+    ".claude/e2e-tests/feature-example/01-main-user-journey.md",
+    ".claude/e2e-tests/feature-example/02-error-handling.md",
+    ".claude/e2e-tests/feature-example/03-edge-cases.md",
+    ".claude/e2e-tests/feature-example/04-integration.md",
+    ".claude/e2e-tests/feature-example/05-regression.md"
   ],
-  "error": null,
-  "duration_ms": 3450
+  "coverage_summary": {
+    "user_stories": 2,
+    "acceptance_criteria": 8,
+    "edge_cases": 3,
+    "integration_points": 2
+  },
+  "next_steps": [
+    "Review generated tests for completeness",
+    "Run tests using: /test-e2e [test-file]",
+    "Execute all tests: /test-e2e .claude/e2e-tests/[plan-name]/"
+  ]
 }
 ```
 
-For failures:
+## Auto-Detection Heuristics
 
-```json
+When analyzing the spec:
+
+1. **URL/Route Detection**: Look for routes in "Relevant Files" and implementation
+2. **Component Detection**: Identify UI components that need testing
+3. **API Detection**: Find API endpoints that need validation
+4. **Data Flow**: Trace data movement through the application
+5. **User Touchpoints**: Identify all user interaction points
+
+## Example Workflow
+
+```bash
+# User executes command
+/e2e-test-design specs/feature-user-authentication.md
+
+# Command automatically:
+1. Reads spec/feature-user-authentication.md
+2. Detects it's a Feature plan with authentication flows
+3. Identifies routes: /login, /register, /logout
+4. Detects components: LoginForm, RegisterForm
+5. Generates 5 comprehensive E2E tests
+6. Returns summary of created tests
+
+# Output:
 {
-  "test_name": "User Login",
-  "status": "failed",
-  "screenshots": [
-    "screenshots/user-login/01_login_page.png"
-  ],
-  "error": "Step 6 failed: Expected redirect to /dashboard, got /error",
-  "failed_step": 6,
-  "duration_ms": 2100
+  "plan_analyzed": "specs/feature-user-authentication.md",
+  "tests_created": 5,
+  "test_files": [
+    ".claude/e2e-tests/feature-user-authentication/01-user-login.md",
+    ".claude/e2e-tests/feature-user-authentication/02-user-registration.md",
+    ".claude/e2e-tests/feature-user-authentication/03-password-reset.md",
+    ".claude/e2e-tests/feature-user-authentication/04-session-management.md",
+    ".claude/e2e-tests/feature-user-authentication/05-error-handling.md"
+  ]
 }
 ```
+
+## Integration with Testing Commands
+
+Generated tests are compatible with:
+
+- `/test-e2e [test-file]` - Execute individual test
+- `/test-e2e [directory]` - Execute all tests in directory
+- `/resolve-failed-e2e-test [result]` - Fix failed tests
 
 ## Memory References
 
-- @e2e-test-patterns.md - Full E2E pattern documentation
-- @closed-loop-anatomy.md - Using E2E in feedback loops
-- @validation-commands.md - Integrating E2E into validation stack
+- @plan-format-guide.md - Understanding plan structures
+- @zte-progression.md - Zero-Touch Engineering methodology
+- @test-e2e.md - E2E test execution command
+- @resolve-failed-e2e-test.md - Failed test resolution
 
 ## Version History
 
-- **v1.0.0** (2025-12-26): Initial release
+- **v2.0.0** (2025-03-07): Complete rewrite for automatic test generation based on plan analysis
+- **v1.0.0** (2025-12-26): Initial manual design approach
 
 ---
 
 ## Last Updated
 
-**Date:** 2025-12-26
-**Model:** claude-opus-4-5-20251101
+**Date:** 2025-03-07
+**Model:** claude-sonnet-4-6
+**Approach:** Automatic test generation from implemented plans
