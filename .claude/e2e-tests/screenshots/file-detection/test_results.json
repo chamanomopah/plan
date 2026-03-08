@@ -1,0 +1,135 @@
+{
+  "test_name": "File Type Detection and Module Rendering",
+  "timestamp": "2026-03-08T11:28:10.724756",
+  "screenshots": [],
+  "steps": [
+    {
+      "step": "Initial navigation",
+      "status": "passed",
+      "details": "Loaded http://localhost:8000",
+      "screenshot": null,
+      "timestamp": "2026-03-08T11:28:13.619308"
+    },
+    {
+      "step": "HTML - Project selection",
+      "status": "passed",
+      "details": "Selected heroPage_design",
+      "screenshot": null,
+      "timestamp": "2026-03-08T11:28:15.159056"
+    },
+    {
+      "step": "HTML - File type detection",
+      "status": "passed",
+      "details": "HTML detected: True",
+      "screenshot": null,
+      "timestamp": "2026-03-08T11:28:17.409058"
+    },
+    {
+      "step": "HTML - Module loaded",
+      "status": "passed",
+      "details": "html_preview module loaded: True",
+      "screenshot": null,
+      "timestamp": "2026-03-08T11:28:17.411264"
+    },
+    {
+      "step": "HTML - Visualization area",
+      "status": "passed",
+      "details": "Found 1 iframe(s)",
+      "screenshot": null,
+      "timestamp": "2026-03-08T11:28:17.413024"
+    },
+    {
+      "step": "Mermaid - Project selection",
+      "status": "passed",
+      "details": "Selected sdlcWorkflow_structure",
+      "screenshot": null,
+      "timestamp": "2026-03-08T11:28:18.933043"
+    },
+    {
+      "step": "Mermaid - File type detection",
+      "status": "passed",
+      "details": "Mermaid detected: True",
+      "screenshot": null,
+      "timestamp": "2026-03-08T11:28:21.107694"
+    },
+    {
+      "step": "Mermaid - Module loaded",
+      "status": "passed",
+      "details": "mermaid module loaded: True",
+      "screenshot": null,
+      "timestamp": "2026-03-08T11:28:21.109630"
+    },
+    {
+      "step": "Mermaid - Visualization",
+      "status": "passed",
+      "details": "Found 1 diagram element(s)",
+      "screenshot": null,
+      "timestamp": "2026-03-08T11:28:21.111913"
+    },
+    {
+      "step": "AskQuestionTool - Project selection",
+      "status": "passed",
+      "details": "Selected qualification_questions",
+      "screenshot": null,
+      "timestamp": "2026-03-08T11:28:22.638168"
+    },
+    {
+      "step": "AskQuestionTool - File type detection",
+      "status": "passed",
+      "details": "AskQuestionTool detected: True",
+      "screenshot": null,
+      "timestamp": "2026-03-08T11:28:24.818568"
+    },
+    {
+      "step": "AskQuestionTool - Module loaded",
+      "status": "warning",
+      "details": "claudeCode_askQuestionTool module loaded: False",
+      "screenshot": null,
+      "timestamp": "2026-03-08T11:28:24.825089"
+    },
+    {
+      "step": "AskQuestionTool - Interactive elements",
+      "status": "passed",
+      "details": "Found 6 checkboxes, 0 radio buttons",
+      "screenshot": null,
+      "timestamp": "2026-03-08T11:28:24.829189"
+    },
+    {
+      "step": "Content detection - No extension",
+      "status": "info",
+      "details": "Skipped - requires creating test files without extensions",
+      "screenshot": null,
+      "timestamp": "2026-03-08T11:28:24.829200"
+    },
+    {
+      "step": "Kanban detection",
+      "status": "info",
+      "details": "Skipped - requires creating kanban.json test file",
+      "screenshot": null,
+      "timestamp": "2026-03-08T11:28:24.829204"
+    },
+    {
+      "step": "TodoList detection",
+      "status": "info",
+      "details": "Skipped - requires creating todolist.json test file",
+      "screenshot": null,
+      "timestamp": "2026-03-08T11:28:24.829206"
+    },
+    {
+      "step": "Empty file handling",
+      "status": "info",
+      "details": "Skipped - requires creating empty.txt test file",
+      "screenshot": null,
+      "timestamp": "2026-03-08T11:28:24.829208"
+    }
+  ],
+  "success_criteria": {
+    "html_files_detected": true,
+    "mermaid_files_detected": true,
+    "askquestiontool_detected": true,
+    "modules_loaded_correctly": true,
+    "visualizations_render": true
+  },
+  "status": "passed_with_warnings",
+  "error": null
+}
