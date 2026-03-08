@@ -315,8 +315,8 @@ def run_test():
                 data = response.json()
                 runner.verify(
                     "Unsupported file falls back to text_editor",
-                    data.get("detector", {}).get("module") == "text_editor",
-                    error_msg=f"Module: {data.get('detector', {}).get('module')}"
+                    data.get("metadata", {}).get("module") == "text_editor",
+                    error_msg=f"Module: {data.get('metadata', {}).get('module')}"
                 )
 
             runner.take_screenshot("04-unsupported-file")

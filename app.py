@@ -307,6 +307,7 @@ async def get_file(project_name: str, file_name: str):
             "path": str(file_path),
             "content": content,
             "metadata": detection,
+            "detector": detection,  # Added for compatibility with tests
             "size": len(content)
         }
 

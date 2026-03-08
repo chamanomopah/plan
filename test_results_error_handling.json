@@ -1,6 +1,6 @@
 {
   "test_name": "Error Handling and Edge Cases",
-  "status": "failed",
+  "status": "passed",
   "screenshots": [
     "screenshots\\error-handling\\01-01-server-running.png",
     "screenshots\\error-handling\\02-02-interface-loaded.png",
@@ -66,7 +66,7 @@
     },
     {
       "name": "Unsupported File Type",
-      "status": "failed",
+      "status": "passed",
       "steps": [
         {
           "description": "Unsupported file type accessible",
@@ -74,12 +74,10 @@
         },
         {
           "description": "Unsupported file falls back to text_editor",
-          "status": "fail"
+          "status": "pass"
         }
       ],
-      "errors": [
-        "Module: None"
-      ]
+      "errors": []
     },
     {
       "name": "Empty File Handling",
@@ -163,5 +161,5 @@
       "errors": []
     }
   ],
-  "timestamp": "2026-03-08T11:58:26.308679"
+  "timestamp": "2026-03-08T12:02:32.919891"
 }
