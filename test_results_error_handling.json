@@ -1,0 +1,167 @@
+{
+  "test_name": "Error Handling and Edge Cases",
+  "status": "failed",
+  "screenshots": [
+    "screenshots\\error-handling\\01-01-server-running.png",
+    "screenshots\\error-handling\\02-02-interface-loaded.png",
+    "screenshots\\error-handling\\03-03-corrupted-file.png",
+    "screenshots\\error-handling\\04-04-unsupported-file.png",
+    "screenshots\\error-handling\\05-05-empty-file.png",
+    "screenshots\\error-handling\\06-06-special-chars-filename.png",
+    "screenshots\\error-handling\\07-07-unicode-content.png",
+    "screenshots\\error-handling\\08-08-webhook-invalid-url.png",
+    "screenshots\\error-handling\\09-09-websocket-status.png",
+    "screenshots\\error-handling\\10-10-missing-config.png",
+    "screenshots\\error-handling\\11-11-large-file.png"
+  ],
+  "error": null,
+  "test_cases": [
+    {
+      "name": "Server Not Running",
+      "status": "passed",
+      "steps": [
+        {
+          "description": "Server API is responding",
+          "status": "pass"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "Invalid File Path - Non-existent File",
+      "status": "passed",
+      "steps": [
+        {
+          "description": "Non-existent file returns 404",
+          "status": "pass"
+        },
+        {
+          "description": "Error message mentions file not found",
+          "status": "pass"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "Invalid File Path - Non-existent Project",
+      "status": "passed",
+      "steps": [
+        {
+          "description": "Non-existent project returns 404",
+          "status": "pass"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "Corrupted File Content",
+      "status": "passed",
+      "steps": [
+        {
+          "description": "Corrupted file handled gracefully",
+          "status": "pass"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "Unsupported File Type",
+      "status": "failed",
+      "steps": [
+        {
+          "description": "Unsupported file type accessible",
+          "status": "pass"
+        },
+        {
+          "description": "Unsupported file falls back to text_editor",
+          "status": "fail"
+        }
+      ],
+      "errors": [
+        "Module: None"
+      ]
+    },
+    {
+      "name": "Empty File Handling",
+      "status": "passed",
+      "steps": [
+        {
+          "description": "Empty file loads successfully",
+          "status": "pass"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "Special Characters in Filename",
+      "status": "passed",
+      "steps": [
+        {
+          "description": "File with spaces accessible",
+          "status": "pass"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "Special Characters in Content",
+      "status": "passed",
+      "steps": [
+        {
+          "description": "Unicode characters preserved",
+          "status": "pass"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "Webhook Error Handling",
+      "status": "passed",
+      "steps": [
+        {
+          "description": "Webhook error handling test completed",
+          "status": "pass"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "WebSocket Connection Status",
+      "status": "passed",
+      "steps": [
+        {
+          "description": "WebSocket connection attempted",
+          "status": "pass"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "Missing Project Config",
+      "status": "passed",
+      "steps": [
+        {
+          "description": "Project loads without config.json",
+          "status": "pass"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "Large File Handling",
+      "status": "passed",
+      "steps": [
+        {
+          "description": "Large file loads successfully",
+          "status": "pass"
+        },
+        {
+          "description": "Large file loads in reasonable time",
+          "status": "pass"
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "timestamp": "2026-03-08T11:58:26.308679"
+}
