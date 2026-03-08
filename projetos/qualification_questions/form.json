@@ -1,0 +1,65 @@
+{
+  "type": "form",
+  "title": "Project Configuration",
+  "description": "Configure your project settings",
+  "fields": [
+    {
+      "name": "projectName",
+      "type": "text",
+      "label": "Project Name",
+      "value": "My Awesome Project",
+      "required": true,
+      "placeholder": "Enter project name"
+    },
+    {
+      "name": "description",
+      "type": "textarea",
+      "label": "Description",
+      "value": "This is a sample project description",
+      "required": false,
+      "placeholder": "Enter project description"
+    },
+    {
+      "name": "category",
+      "type": "select",
+      "label": "Category",
+      "value": "web",
+      "required": true,
+      "options": [
+        { "value": "web", "label": "Web Application" },
+        { "value": "mobile", "label": "Mobile App" },
+        { "value": "desktop", "label": "Desktop Application" },
+        { "value": "api", "label": "API Service" }
+      ]
+    },
+    {
+      "name": "features",
+      "type": "multiselect",
+      "label": "Features",
+      "value": ["auth", "api"],
+      "required": false,
+      "options": [
+        { "value": "auth", "label": "Authentication" },
+        { "value": "api", "label": "REST API" },
+        { "value": "realtime", "label": "Real-time Updates" },
+        { "value": "analytics", "label": "Analytics Dashboard" }
+      ]
+    },
+    {
+      "name": "public",
+      "type": "boolean",
+      "label": "Public Project",
+      "value": true,
+      "required": false
+    },
+    {
+      "name": "maxUsers",
+      "type": "number",
+      "label": "Maximum Users",
+      "value": 100,
+      "required": true,
+      "min": 1,
+      "max": 10000
+    }
+  ]
+}

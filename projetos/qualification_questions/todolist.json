@@ -1,0 +1,36 @@
+{
+  "type": "todolist",
+  "title": "Project Tasks",
+  "tasks": [
+    {
+      "id": "task1",
+      "text": "Review project requirements",
+      "completed": true
+    },
+    {
+      "id": "task2",
+      "text": "Create wireframes for main pages",
+      "completed": true
+    },
+    {
+      "id": "task3",
+      "text": "Implement user authentication",
+      "completed": false
+    },
+    {
+      "id": "task4",
+      "text": "Design database schema",
+      "completed": false
+    },
+    {
+      "id": "task5",
+      "text": "Write unit tests for core modules",
+      "completed": false
+    },
+    {
+      "id": "task6",
+      "text": "Setup CI/CD pipeline",
+      "completed": false
+    }
+  ]
+}

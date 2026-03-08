@@ -1,0 +1,52 @@
+{
+  "type": "kanban",
+  "title": "Project Kanban Board",
+  "columns": [
+    {
+      "id": "todo",
+      "title": "To Do",
+      "cards": [
+        {
+          "id": "card1",
+          "title": "Design new UI components",
+          "description": "Create reusable button, input, and card components",
+          "priority": "high",
+          "assignee": "Alice"
+        },
+        {
+          "id": "card2",
+          "title": "Write API documentation",
+          "description": "Document all REST endpoints with examples",
+          "priority": "medium",
+          "assignee": "Bob"
+        }
+      ]
+    },
+    {
+      "id": "inprogress",
+      "title": "In Progress",
+      "cards": [
+        {
+          "id": "card3",
+          "title": "Implement authentication flow",
+          "description": "Add OAuth2 and JWT support",
+          "priority": "high",
+          "assignee": "Charlie"
+        }
+      ]
+    },
+    {
+      "id": "done",
+      "title": "Done",
+      "cards": [
+        {
+          "id": "card4",
+          "title": "Setup project repository",
+          "description": "Initialize Git repo with CI/CD pipeline",
+          "priority": "high",
+          "assignee": "Dave"
+        }
+      ]
+    }
+  ]
+}
