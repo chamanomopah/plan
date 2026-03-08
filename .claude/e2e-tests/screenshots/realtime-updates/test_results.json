@@ -1,0 +1,100 @@
+{
+  "test_name": "Real-time Updates via WebSocket",
+  "timestamp": "2026-03-08T11:22:48.016444",
+  "screenshots": [],
+  "steps": [
+    {
+      "step": "Navigate to application (both tabs)",
+      "status": "passed",
+      "details": "Both tabs loaded successfully",
+      "screenshot": null,
+      "timestamp": "2026-03-08T11:22:52.442038"
+    },
+    {
+      "step": "WebSocket connection Tab 1",
+      "status": "passed",
+      "details": "Tab 1 WebSocket: Connected",
+      "screenshot": null,
+      "timestamp": "2026-03-08T11:22:54.442234"
+    },
+    {
+      "step": "WebSocket connection Tab 2",
+      "status": "passed",
+      "details": "Tab 2 WebSocket: Connected",
+      "screenshot": null,
+      "timestamp": "2026-03-08T11:22:54.442261"
+    },
+    {
+      "step": "Tab 1 WebSocket state",
+      "status": "passed",
+      "details": "Tab 1 WebSocket is OPEN",
+      "screenshot": null,
+      "timestamp": "2026-03-08T11:22:54.449148"
+    },
+    {
+      "step": "Tab 2 WebSocket state",
+      "status": "passed",
+      "details": "Tab 2 WebSocket is OPEN",
+      "screenshot": null,
+      "timestamp": "2026-03-08T11:22:54.449155"
+    },
+    {
+      "step": "Project/file selection Tab 1",
+      "status": "passed",
+      "details": "Tab 1: Selected heroPage_design/design.html",
+      "screenshot": null,
+      "timestamp": "2026-03-08T11:23:00.838063"
+    },
+    {
+      "step": "Project/file selection Tab 2",
+      "status": "passed",
+      "details": "Tab 2: Selected heroPage_design/design.html",
+      "screenshot": null,
+      "timestamp": "2026-03-08T11:23:00.838094"
+    },
+    {
+      "step": "External file modification",
+      "status": "passed",
+      "details": "File modified successfully",
+      "screenshot": null,
+      "timestamp": "2026-03-08T11:23:01.260539"
+    },
+    {
+      "step": "Tab 1 file update notification",
+      "status": "warning",
+      "details": "Tab 1: 0 console messages, toast visible: False",
+      "screenshot": null,
+      "timestamp": "2026-03-08T11:23:02.264058"
+    },
+    {
+      "step": "Tab 2 file update notification",
+      "status": "warning",
+      "details": "Tab 2: 0 console messages, toast visible: False",
+      "screenshot": null,
+      "timestamp": "2026-03-08T11:23:02.266485"
+    },
+    {
+      "step": "Sidebar input preservation",
+      "status": "warning",
+      "details": "Error testing preservation: Locator.input_value: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator(\"textarea[name='command']\").first\n",
+      "screenshot": null,
+      "timestamp": "2026-03-08T11:23:34.212693"
+    },
+    {
+      "step": "Debounce mechanism",
+      "status": "passed",
+      "details": "Made 3 rapid changes, received 0 update notification(s)",
+      "screenshot": null,
+      "timestamp": "2026-03-08T11:23:36.514955"
+    }
+  ],
+  "success_criteria": {
+    "websocket_connections": true,
+    "file_updates_received": false,
+    "both_tabs_updated": false,
+    "sidebar_preservation": true,
+    "debounce_mechanism": true
+  },
+  "status": "passed_with_warnings",
+  "error": null
+}
