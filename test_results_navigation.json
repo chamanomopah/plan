@@ -1,0 +1,166 @@
+{
+  "test_name": "Project Navigation and File Switching",
+  "status": "failed",
+  "screenshots": [
+    "screenshots\\navigation\\01-initial-load.png",
+    "screenshots\\navigation\\02-01-dropdown-loaded.png",
+    "screenshots\\navigation\\03-03-file-clicked.png",
+    "screenshots\\navigation\\04-04-qualification-project.png",
+    "screenshots\\navigation\\05-05-file-0-clicked.png",
+    "screenshots\\navigation\\06-05-file-1-clicked.png",
+    "screenshots\\navigation\\07-07-switched-project.png",
+    "screenshots\\navigation\\08-08-switched-back.png",
+    "screenshots\\navigation\\09-09-after-reload.png",
+    "screenshots\\navigation\\10-10-after-browser-refresh.png",
+    "screenshots\\navigation\\11-12-keyboard-down.png",
+    "screenshots\\navigation\\12-13-keyboard-enter.png",
+    "screenshots\\navigation\\13-final-state.png"
+  ],
+  "error": null,
+  "test_cases": [
+    {
+      "name": "Test Case 1: Project Selection",
+      "status": "failed",
+      "steps": [
+        {
+          "description": "Projects load in dropdown",
+          "status": "pass"
+        },
+        {
+          "description": "Test Case 1 execution",
+          "status": "fail"
+        }
+      ],
+      "errors": [
+        "Exception: 'charmap' codec can't encode character '\\U0001f3a8' in position 17: character maps to <undefined>"
+      ]
+    },
+    {
+      "name": "Test Case 2: File Navigation Within Project",
+      "status": "passed",
+      "steps": [
+        {
+          "description": "File click executed",
+          "status": "pass"
+        },
+        {
+          "description": "Current file name updated",
+          "status": "pass"
+        },
+        {
+          "description": "File 0 selection works",
+          "status": "pass"
+        },
+        {
+          "description": "File 1 selection works",
+          "status": "pass"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "Test Case 3: File State Preservation",
+      "status": "failed",
+      "steps": [
+        {
+          "description": "Input preserved after switching projects",
+          "status": "fail"
+        },
+        {
+          "description": "File modification indicator test",
+          "status": "pass"
+        }
+      ],
+      "errors": [
+        "Input was: "
+      ]
+    },
+    {
+      "name": "Test Case 4: Reload and Refresh",
+      "status": "passed",
+      "steps": [
+        {
+          "description": "Reload button found and clicked",
+          "status": "pass"
+        },
+        {
+          "description": "Browser refresh successful",
+          "status": "pass"
+        },
+        {
+          "description": "UI renders after refresh",
+          "status": "pass"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "Test Case 5: Project Configuration",
+      "status": "failed",
+      "steps": [
+        {
+          "description": "Config exists for 'heroPage_design'",
+          "status": "pass"
+        },
+        {
+          "description": "'heroPage_design' has display_name",
+          "status": "pass"
+        },
+        {
+          "description": "'heroPage_design' has icon",
+          "status": "pass"
+        },
+        {
+          "description": "'heroPage_design' has webhook",
+          "status": "pass"
+        },
+        {
+          "description": "Read config for 'qualification_questions'",
+          "status": "fail"
+        },
+        {
+          "description": "Config exists for 'sdlcWorkflow_structure'",
+          "status": "pass"
+        },
+        {
+          "description": "'sdlcWorkflow_structure' has display_name",
+          "status": "pass"
+        },
+        {
+          "description": "'sdlcWorkflow_structure' has icon",
+          "status": "pass"
+        },
+        {
+          "description": "'sdlcWorkflow_structure' has webhook",
+          "status": "pass"
+        },
+        {
+          "description": "Test Case 5 execution",
+          "status": "fail"
+        }
+      ],
+      "errors": [
+        "'charmap' codec can't decode byte 0x9d in position 140: character maps to <undefined>",
+        "Exception: 'charmap' codec can't encode character '\\U0001f3a8' in position 31: character maps to <undefined>"
+      ]
+    },
+    {
+      "name": "Test Case 6: Keyboard Navigation",
+      "status": "failed",
+      "steps": [
+        {
+          "description": "Keyboard navigation (ArrowDown) works",
+          "status": "pass"
+        },
+        {
+          "description": "Keyboard Enter selects project",
+          "status": "fail"
+        }
+      ],
+      "errors": [
+        "Selection did not change"
+      ]
+    }
+  ],
+  "timestamp": "2026-03-08T11:49:46.380906"
+}
