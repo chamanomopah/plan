@@ -2,24 +2,24 @@
   "test_name": "Performance and Accessibility",
   "status": "passed",
   "screenshots": [
-    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120526_03_realtime_status_Chromium.png",
-    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120527_05_memory_test_Chromium.png",
-    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120527_06_accessibility_Chromium.png",
-    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120529_07_responsive_mobile_Chromium.png",
-    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120529_08_responsive_desktop_Chromium.png",
-    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120529_09_browser_chromium_Chromium.png",
-    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120534_03_realtime_status_Firefox.png",
-    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120534_05_memory_test_Firefox.png",
-    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120534_06_accessibility_Firefox.png",
-    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120536_07_responsive_mobile_Firefox.png",
-    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120536_08_responsive_desktop_Firefox.png",
-    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120536_09_browser_firefox_Firefox.png",
-    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120540_03_realtime_status_WebKit.png",
-    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120540_05_memory_test_WebKit.png",
-    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120540_06_accessibility_WebKit.png",
-    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120542_07_responsive_mobile_WebKit.png",
-    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120542_08_responsive_desktop_WebKit.png",
-    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120542_09_browser_webkit_WebKit.png"
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120920_03_realtime_status_Chromium.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120920_05_memory_test_Chromium.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120920_06_accessibility_Chromium.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120922_07_responsive_mobile_Chromium.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120922_08_responsive_desktop_Chromium.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120923_09_browser_chromium_Chromium.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120926_03_realtime_status_Firefox.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120926_05_memory_test_Firefox.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120926_06_accessibility_Firefox.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120929_07_responsive_mobile_Firefox.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120929_08_responsive_desktop_Firefox.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120929_09_browser_firefox_Firefox.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120931_03_realtime_status_WebKit.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120931_05_memory_test_WebKit.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120931_06_accessibility_WebKit.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120933_07_responsive_mobile_WebKit.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120933_08_responsive_desktop_WebKit.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120934_09_browser_webkit_WebKit.png"
   ],
   "error": null,
   "test_cases": [
@@ -549,6 +549,6 @@
       ]
     }
   ],
-  "start_time": "2026-03-08T12:05:24.572768",
-  "end_time": "2026-03-08T12:05:42.900808"
+  "start_time": "2026-03-08T12:09:18.173207",
+  "end_time": "2026-03-08T12:09:34.145850"
 }

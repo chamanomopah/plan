@@ -9,86 +9,99 @@
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
+    <!-- Skip Links for Accessibility -->
+    <a href="#main-content" class="skip-link" id="skip-to-main">Pular para o conteúdo principal</a>
+    <a href="#project-selector" class="skip-link" id="skip-to-projects">Pular para seleção de projeto</a>
+
+    <!-- Connection Status Indicator (ARIA Live Region) -->
+    <div id="connection-status" class="connection-status" role="status" aria-live="polite" aria-atomic="true">
+        <span class="status-indicator" aria-hidden="true"></span>
+        <span id="status-text">Conectando...</span>
+    </div>
+
+    <!-- Header with Landmark -->
+    <header class="header" role="banner">
         <div class="header-left">
-            <select id="projectSelector" class="project-selector">
+            <label for="projectSelector" class="visually-hidden">Selecione um projeto</label>
+            <select id="projectSelector" class="project-selector" aria-label="Selecione um projeto para visualizar">
                 <option value="">Selecione um projeto...</option>
             </select>
         </div>
         <div class="header-center">
-            <h1>Project Viewer</h1>
+            <h1 id="page-title">Project Viewer</h1>
         </div>
         <div class="header-right">
-            <button id="reloadBtn" class="btn btn-secondary">
-                <span>↻</span> Recarregar
+            <button id="reloadBtn" class="btn btn-secondary" aria-label="Recarregar página e projetos">
+                <span aria-hidden="true">↻</span> Recarregar
             </button>
         </div>
     </header>
 
     <!-- Main Content -->
-    <div class="main-container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
+    <div class="main-container" role="application" aria-label="Project Viewer Application">
+        <!-- Sidebar with Landmark -->
+        <aside class="sidebar" role="complementary" aria-label="Painel de controle e configurações">
             <!-- Webhook Configuration -->
-            <div class="sidebar-section">
-                <h3>Configuração de Webhook</h3>
+            <div class="sidebar-section" role="region" aria-labelledby="webhook-heading">
+                <h3 id="webhook-heading">Configuração de Webhook</h3>
                 <div class="webhook-display">
-                    <span id="webhookUrl" class="webhook-url">Carregando...</span>
-                    <button id="configureWebhookBtn" class="btn btn-small">Configurar</button>
+                    <span id="webhookUrl" class="webhook-url" role="status" aria-live="polite">Carregando...</span>
+                    <button id="configureWebhookBtn" class="btn btn-small" aria-label="Configurar webhook do projeto">Configurar</button>
                 </div>
             </div>
 
             <!-- User Input Area -->
-            <div class="sidebar-section">
-                <h3>Seu Input</h3>
-                <div id="userInputContainer" class="user-input-container">
+            <div class="sidebar-section" role="region" aria-labelledby="input-heading">
+                <h3 id="input-heading">Seu Input</h3>
+                <div id="userInputContainer" class="user-input-container" role="region" aria-live="polite" aria-atomic="true">
                     <!-- Input será renderizado aqui pelo módulo -->
-                    <textarea id="defaultInput" class="user-input-textarea" placeholder="Seu input aparecerá aqui..."></textarea>
+                    <label for="defaultInput" class="visually-hidden">Campo de input personalizado</label>
+                    <textarea id="defaultInput" class="user-input-textarea" placeholder="Seu input aparecerá aqui..." aria-label="Digite seu input aqui"></textarea>
                 </div>
             </div>
 
             <!-- Send Button -->
             <div class="sidebar-section">
-                <button id="sendBtn" class="btn btn-primary btn-block" disabled>
-                    Enviar para Webhook ►
+                <button id="sendBtn" class="btn btn-primary btn-block" disabled aria-label="Enviar conteúdo para webhook configurado">
+                    Enviar para Webhook <span aria-hidden="true">►</span>
                 </button>
             </div>
 
             <!-- Project Files -->
-            <div class="sidebar-section">
-                <h3>Arquivos do Projeto</h3>
-                <div id="filesList" class="files-list">
-                    <p class="text-muted">Selecione um projeto primeiro</p>
+            <div class="sidebar-section" role="region" aria-labelledby="files-heading">
+                <h3 id="files-heading">Arquivos do Projeto</h3>
+                <div id="filesList" class="files-list" role="list" aria-label="Lista de arquivos do projeto">
+                    <p class="text-muted" role="status">Selecione um projeto primeiro</p>
                 </div>
             </div>
         </aside>
 
-        <!-- Visualization Area -->
-        <main class="visualization-area">
-            <div class="file-header">
+        <!-- Visualization Area with Landmark -->
+        <main id="main-content" class="visualization-area" role="main" aria-labelledby="currentFileName" tabindex="-1">
+            <div class="file-header" role="banner" aria-labelledby="currentFileName">
                 <h2 id="currentFileName">Nenhum arquivo selecionado</h2>
-                <div class="file-meta">
-                    <span id="fileType" class="badge">-</span>
-                    <span id="fileModified" class="text-muted">-</span>
+                <div class="file-meta" role="contentinfo" aria-label="Metadados do arquivo">
+                    <span id="fileType" class="badge" aria-label="Tipo do arquivo">-</span>
+                    <span id="fileModified" class="text-muted" aria-label="Última modificação">-</span>
                 </div>
             </div>
 
-            <div id="visualizationContainer" class="visualization-container">
-                <div class="empty-state">
-                    <div class="empty-icon">📄</div>
+            <div id="visualizationContainer" class="visualization-container" role="region" aria-live="polite" aria-atomic="true" aria-label="Área de visualização do arquivo">
+                <div class="empty-state" role="status" aria-live="polite">
+                    <div class="empty-icon" aria-hidden="true">📄</div>
                     <p>Selecione um arquivo para visualizar</p>
                 </div>
             </div>
         </main>
     </div>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="toast"></div>
+    <!-- Toast Notification (ARIA Live Region) -->
+    <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" aria-atomic="true"></div>
 
     <!-- Loading Overlay -->
-    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
-        <div class="spinner"></div>
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;" role="status" aria-live="polite" aria-atomic="true" aria-label="Carregando conteúdo">
+        <div class="spinner" aria-hidden="true"></div>
+        <span class="visually-hidden">Carregando...</span>
     </div>
 
     <script src="/static/js/main.js"></script>

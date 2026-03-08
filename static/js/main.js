@@ -63,7 +63,8 @@ function setupEventListeners() {
     });
 
     // Reload button
-    document.getElementById('reloadBtn').addEventListener('click', () => {
+    const reloadBtn = document.getElementById('reloadBtn');
+    reloadBtn.addEventListener('click', () => {
         if (currentProject) {
             loadProjectFiles(currentProject);
         }
@@ -71,7 +72,8 @@ function setupEventListeners() {
     });
 
     // Configure webhook button
-    document.getElementById('configureWebhookBtn').addEventListener('click', () => {
+    const configureWebhookBtn = document.getElementById('configureWebhookBtn');
+    configureWebhookBtn.addEventListener('click', () => {
         const newUrl = prompt('Insira a URL do webhook:', getCurrentWebhook());
         if (newUrl !== null) {
             updateWebhookUrl(newUrl);
@@ -79,7 +81,37 @@ function setupEventListeners() {
     });
 
     // Send button
-    document.getElementById('sendBtn').addEventListener('click', sendToWebhook);
+    const sendBtn = document.getElementById('sendBtn');
+    sendBtn.addEventListener('click', sendToWebhook);
+
+    // Add keyboard navigation for file items
+    document.addEventListener('keydown', (e) => {
+        // Handle arrow keys for file navigation
+        if (e.target.classList.contains('file-item')) {
+            const fileItems = Array.from(document.querySelectorAll('.file-item'));
+            const currentIndex = fileItems.indexOf(e.target);
+
+            if (e.key === 'ArrowDown' && currentIndex < fileItems.length - 1) {
+                e.preventDefault();
+                fileItems[currentIndex + 1].focus();
+                fileItems[currentIndex + 1].click();
+            } else if (e.key === 'ArrowUp' && currentIndex > 0) {
+                e.preventDefault();
+                fileItems[currentIndex - 1].focus();
+                fileItems[currentIndex - 1].click();
+            }
+        }
+    });
+
+    // Add Escape key to close loading overlay
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            if (loadingOverlay && loadingOverlay.style.display !== 'none') {
+                hideLoading();
+            }
+        }
+    });
 }
 
 // API Calls
@@ -127,20 +159,34 @@ async function loadProjectFiles(projectName) {
         filesList.innerHTML = '';
 
         if (files.length === 0) {
-            filesList.innerHTML = '<p class="text-muted">Nenhum arquivo encontrado</p>';
+            filesList.innerHTML = '<p class="text-muted" role="status">Nenhum arquivo encontrado</p>';
         } else {
-            files.forEach(file => {
+            files.forEach((file, index) => {
                 const fileItem = document.createElement('div');
                 fileItem.className = 'file-item';
                 fileItem.dataset.file = file.name;
+                fileItem.setAttribute('role', 'button');
+                fileItem.setAttribute('tabindex', '0');
+                fileItem.setAttribute('aria-label', `Carregar arquivo ${file.name} do tipo ${file.type}`);
+                fileItem.setAttribute('data-testid', `file-${index}`);
 
                 fileItem.innerHTML = `
-                    <span class="file-icon">📄</span>
+                    <span class="file-icon" aria-hidden="true">📄</span>
                     <span class="file-name">${file.name}</span>
                     <span class="file-badge">${file.type}</span>
                 `;
 
+                // Mouse click
                 fileItem.addEventListener('click', () => loadFile(projectName, file.name));
+
+                // Keyboard support
+                fileItem.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        loadFile(projectName, file.name);
+                    }
+                });
+
                 filesList.appendChild(fileItem);
             });
         }
@@ -390,6 +436,7 @@ function connectWebSocket() {
 
     ws.onopen = () => {
         console.log('WebSocket connected');
+        updateConnectionStatus('connected');
     };
 
     ws.onmessage = (event) => {
@@ -399,12 +446,41 @@ function connectWebSocket() {
 
     ws.onerror = (error) => {
         console.error('WebSocket error:', error);
+        updateConnectionStatus('error');
     };
 
     ws.onclose = () => {
         console.log('WebSocket disconnected, reconnecting...');
+        updateConnectionStatus('disconnected');
         setTimeout(connectWebSocket, 3000);
     };
+}
+
+// Connection Status Management
+function updateConnectionStatus(status) {
+    const statusIndicator = document.querySelector('.status-indicator');
+    const statusText = document.getElementById('status-text');
+
+    if (!statusIndicator || !statusText) return;
+
+    // Remove all status classes
+    statusIndicator.classList.remove('connected', 'error');
+
+    switch (status) {
+        case 'connected':
+            statusIndicator.classList.add('connected');
+            statusText.textContent = 'Conectado';
+            break;
+        case 'disconnected':
+            statusText.textContent = 'Reconectando...';
+            break;
+        case 'error':
+            statusIndicator.classList.add('error');
+            statusText.textContent = 'Erro de conexão';
+            break;
+        default:
+            statusText.textContent = 'Conectando...';
+    }
 }
 
 async function handleWebSocketMessage(data) {
