@@ -422,6 +422,21 @@ async function sendToWebhook() {
 
         if (result.success) {
             showToast('Enviado para webhook com sucesso!', 'success');
+
+            // Add persistent success indicator for E2E testing
+            const sendBtn = document.getElementById('sendBtn');
+            const originalText = sendBtn.textContent;
+            sendBtn.textContent = '✓ Enviado com Sucesso!';
+            sendBtn.classList.add('success');
+            sendBtn.disabled = true;
+
+            // Reset button after 5 seconds
+            setTimeout(() => {
+                sendBtn.textContent = originalText;
+                sendBtn.classList.remove('success');
+                sendBtn.disabled = false;
+            }, 5000);
+
             // Subscribe to updates for this file
             subscribeToFile();
         } else {
@@ -512,9 +527,15 @@ function showToast(message, type = 'info') {
     toast.textContent = message;
     toast.className = `toast ${type} show`;
 
-    setTimeout(() => {
+    // Clear any existing timeout
+    if (toast.timeoutId) {
+        clearTimeout(toast.timeoutId);
+    }
+
+    // Set new timeout and store the ID
+    toast.timeoutId = setTimeout(() => {
         toast.classList.remove('show');
-    }, 3000);
+    }, 5000);
 }
 
 // Auto-subscribe when file changes

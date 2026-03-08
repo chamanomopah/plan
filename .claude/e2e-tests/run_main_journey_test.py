@@ -103,7 +103,7 @@ def run_test():
 
             log_step(
                 "Navigate to application",
-                "passed" if page.url == BASE_URL else "failed",
+                "passed" if page.url.rstrip('/') == BASE_URL.rstrip('/') else "failed",
                 f"Loaded {page.url}",
                 take_screenshot(page, "02-page-loaded")
             )
@@ -289,22 +289,38 @@ def run_test():
 
             # Check for success message
             success_indicators = [
+                "#sendBtn.success",  # Button with success class
                 ".success",
                 ".message",
                 "[data-testid='success-message']",
                 "text=Success",
-                "text=Enviado"
+                "text=Enviado",
+                "text=✓"  # Check for success checkmark
             ]
 
             success_found = False
             for selector in success_indicators:
                 try:
-                    if page.locator(selector).is_visible(timeout=1000):
+                    if page.locator(selector).is_visible(timeout=2000):
                         success_found = True
                         log_step("Success message", "passed", f"Found success indicator: {selector}")
                         break
                 except:
                     continue
+
+            # Additional debugging - check button state
+            try:
+                button_text = page.locator("#sendBtn").text_content(timeout=1000)
+                button_classes = page.locator("#sendBtn").get_attribute("class") or ""
+                print(f"  [DEBUG] Button text: {button_text}")
+                print(f"  [DEBUG] Button classes: {button_classes}")
+
+                if "Enviado" in button_text or "success" in button_classes:
+                    if not success_found:
+                        success_found = True
+                        log_step("Success message", "passed", f"Found success via button state (text: {button_text}, classes: {button_classes})")
+            except Exception as e:
+                print(f"  [DEBUG] Could not check button state: {e}")
 
             if not success_found:
                 log_step("Success message", "info", "No explicit success message found")

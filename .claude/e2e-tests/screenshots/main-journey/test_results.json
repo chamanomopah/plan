@@ -1,97 +1,97 @@
 {
   "test_name": "Main User Journey - Complete Flow",
-  "timestamp": "2026-03-08T09:23:45.835531",
+  "timestamp": "2026-03-08T09:46:50.366066",
   "screenshots": [
     "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\.claude\\e2e-tests\\screenshots\\main-journey\\02-page-loaded.png"
   ],
   "steps": [
     {
       "step": "Navigate to application",
-      "status": "failed",
+      "status": "passed",
       "details": "Loaded http://localhost:8000/",
       "screenshot": "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\.claude\\e2e-tests\\screenshots\\main-journey\\02-page-loaded.png",
-      "timestamp": "2026-03-08T09:23:54.350655"
+      "timestamp": "2026-03-08T09:46:53.311739"
     },
     {
       "step": "Header visible",
       "status": "passed",
       "details": "Header element found",
       "screenshot": null,
-      "timestamp": "2026-03-08T09:23:54.387489"
+      "timestamp": "2026-03-08T09:46:53.334190"
     },
     {
       "step": "Sidebar visible",
       "status": "passed",
       "details": "Sidebar element found",
       "screenshot": null,
-      "timestamp": "2026-03-08T09:23:54.392095"
+      "timestamp": "2026-03-08T09:46:53.339831"
     },
     {
       "step": "Main area visible",
       "status": "passed",
       "details": "Main visualization area found",
       "screenshot": null,
-      "timestamp": "2026-03-08T09:23:54.395375"
+      "timestamp": "2026-03-08T09:46:53.343565"
     },
     {
       "step": "WebSocket connection",
       "status": "passed",
       "details": "WebSocket indicators found: True",
       "screenshot": null,
-      "timestamp": "2026-03-08T09:23:54.511515"
+      "timestamp": "2026-03-08T09:46:53.452779"
     },
     {
       "step": "Project selection",
       "status": "passed",
       "details": "Selected heroPage_design",
       "screenshot": null,
-      "timestamp": "2026-03-08T09:23:56.253973"
+      "timestamp": "2026-03-08T09:46:55.168517"
     },
     {
       "step": "File click",
       "status": "passed",
       "details": "Clicked design.html using [data-file='design.html']",
       "screenshot": null,
-      "timestamp": "2026-03-08T09:23:57.944731"
+      "timestamp": "2026-03-08T09:46:56.874203"
     },
     {
       "step": "Command input",
       "status": "passed",
       "details": "Entered command: Mudar cor do header para azul",
       "screenshot": null,
-      "timestamp": "2026-03-08T09:23:59.688309"
+      "timestamp": "2026-03-08T09:46:58.608214"
     },
     {
       "step": "Webhook send",
       "status": "passed",
       "details": "Clicked webhook button using button:has-text('Enviar')",
       "screenshot": null,
-      "timestamp": "2026-03-08T09:24:00.637978"
+      "timestamp": "2026-03-08T09:46:59.559813"
     },
     {
       "step": "Success message",
-      "status": "info",
-      "details": "No explicit success message found",
+      "status": "passed",
+      "details": "Found success indicator: #sendBtn.success",
       "screenshot": null,
-      "timestamp": "2026-03-08T09:24:02.847165"
+      "timestamp": "2026-03-08T09:47:01.761409"
     },
     {
       "step": "Webhook network call",
       "status": "warning",
       "details": "No webhook network calls detected",
       "screenshot": null,
-      "timestamp": "2026-03-08T09:24:02.847186"
+      "timestamp": "2026-03-08T09:47:01.767141"
     }
   ],
   "success_criteria": {
     "server_starts": true,
-    "interface_loads": false,
+    "interface_loads": true,
     "websocket_connection": true,
     "project_selector_works": true,
     "file_viewing_works": true,
     "command_input_works": true,
     "webhook_sending_works": true
   },
-  "status": "failed",
+  "status": "passed_with_warnings",
   "error": null
 }
