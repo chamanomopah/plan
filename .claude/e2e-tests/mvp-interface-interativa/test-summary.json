@@ -1,0 +1,92 @@
+{
+  "plan_analyzed": "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\specs\\MVP Interface Interativa.md",
+  "plan_type": "Feature",
+  "tests_created": 8,
+  "test_files": [
+    ".claude/e2e-tests/mvp-interface-interativa/01-main-user-journey.md",
+    ".claude/e2e-tests/mvp-interface-interativa/02-realtime-updates.md",
+    ".claude/e2e-tests/mvp-interface-interativa/03-file-type-detection.md",
+    ".claude/e2e-tests/mvp-interface-interativa/04-webhook-integration.md",
+    ".claude/e2e-tests/mvp-interface-interativa/05-module-specific-interactions.md",
+    ".claude/e2e-tests/mvp-interface-interativa/06-project-navigation.md",
+    ".claude/e2e-tests/mvp-interface-interativa/07-error-handling.md",
+    ".claude/e2e-tests/mvp-interface-interativa/08-performance-accessibility.md"
+  ],
+  "coverage_summary": {
+    "user_stories": 6,
+    "acceptance_criteria": 47,
+    "edge_cases": 21,
+    "integration_points": 4
+  },
+  "test_coverage_detail": {
+    "main_user_journey": {
+      "description": "Complete flow from opening interface to sending webhook commands",
+      "test_cases": 1,
+      "acceptance_criteria": 11
+    },
+    "realtime_updates": {
+      "description": "WebSocket functionality for real-time file updates",
+      "test_cases": 8,
+      "acceptance_criteria": 10
+    },
+    "file_type_detection": {
+      "description": "Automatic detection and rendering of different file types",
+      "test_cases": 7,
+      "acceptance_criteria": 10
+    },
+    "webhook_integration": {
+      "description": "Webhook scope hierarchy and payload structure",
+      "test_cases": 6,
+      "acceptance_criteria": 11
+    },
+    "module_specific_interactions": {
+      "description": "Each visualization module's specific behavior",
+      "test_cases": 8,
+      "acceptance_criteria": 11
+    },
+    "project_navigation": {
+      "description": "Project and file navigation with state preservation",
+      "test_cases": 6,
+      "acceptance_criteria": 13
+    },
+    "error_handling": {
+      "description": "Error scenarios and edge cases",
+      "test_cases": 9,
+      "acceptance_criteria": 21
+    },
+    "performance_accessibility": {
+      "description": "Performance metrics and accessibility compliance",
+      "test_cases": 8,
+      "acceptance_criteria": 16
+    }
+  },
+  "next_steps": [
+    "Review generated tests for completeness",
+    "Run tests using: /test-e2e .claude/e2e-tests/mvp-interface-interativa/01-main-user-journey.md",
+    "Execute all tests: /test-e2e .claude/e2e-tests/mvp-interface-interativa/",
+    "For failed tests, use: /resolve-failed-e2e-test [result]"
+  ],
+  "implementation_requirements": {
+    "server": "FastAPI with WebSocket support",
+    "file_types": ["HTML", "Mermaid", "AskQuestionTool JSON", "Kanban", "TodoList", "Form", "Image", "Excalidraw"],
+    "modules": ["html_preview", "meirmaid", "claudeCode_askQuestionTool", "kanban", "todolist", "formulario", "image_preview", "excalidraw"],
+    "key_features": [
+      "Real-time updates via WebSocket",
+      "File type detection by content",
+      "Webhook integration with scope hierarchy",
+      "Read-only visualization area",
+      "Interactive sidebar inputs",
+      "Project and file navigation"
+    ]
+  },
+  "test_environment": {
+    "base_url": "http://localhost:8000",
+    "test_webhook": "https://maceio-n8n-alfa42.serveousercontent.com/webhook/plan",
+    "test_data_directory": "projetos/",
+    "required_projects": [
+      "heroPage_design",
+      "qualification_questions",
+      "sdlcWorkflow_structure"
+    ]
+  }
+}
