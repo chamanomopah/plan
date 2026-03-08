@@ -36,10 +36,29 @@ async function initializeApp() {
 
 function setupEventListeners() {
     // Project selector
-    document.getElementById('projectSelector').addEventListener('change', (e) => {
+    const projectSelector = document.getElementById('projectSelector');
+    let lastSelectedValue = projectSelector.value;
+
+    projectSelector.addEventListener('change', (e) => {
         const project = e.target.value;
-        if (project) {
+        if (project && project !== lastSelectedValue) {
+            lastSelectedValue = project;
             loadProjectFiles(project);
+        }
+    });
+
+    // Add keyboard navigation support for project selector
+    projectSelector.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            const selectedOption = projectSelector.options[projectSelector.selectedIndex];
+            if (selectedOption && selectedOption.value) {
+                // Only load if it's different from the last loaded project
+                if (selectedOption.value !== lastSelectedValue) {
+                    lastSelectedValue = selectedOption.value;
+                    loadProjectFiles(selectedOption.value);
+                }
+            }
         }
     });
 
@@ -126,6 +145,9 @@ async function loadProjectFiles(projectName) {
             });
         }
 
+        // Ensure #defaultInput exists in the sidebar
+        ensureDefaultInputExists();
+
         // Update webhook display
         updateWebhookDisplay();
 
@@ -134,6 +156,19 @@ async function loadProjectFiles(projectName) {
         console.error('Error loading project files:', error);
         showToast('Erro ao carregar arquivos do projeto', 'error');
         hideLoading();
+    }
+}
+
+function ensureDefaultInputExists() {
+    const userInputContainer = document.getElementById('userInputContainer');
+    const existingInput = document.getElementById('defaultInput');
+
+    if (!existingInput) {
+        // Preserve any existing input value
+        const currentValue = userInputContainer.querySelector('textarea')?.value || '';
+        userInputContainer.innerHTML = `
+            <textarea id="defaultInput" class="user-input-textarea" placeholder="Digite seu input aqui...">${currentValue}</textarea>
+        `;
     }
 }
 
@@ -276,6 +311,10 @@ async function renderUserInput(fileData) {
     const container = document.getElementById('userInputContainer');
     const module = fileData.metadata.module;
 
+    // Preserve existing input value if it exists
+    const existingInput = document.getElementById('defaultInput');
+    const preservedValue = existingInput ? existingInput.value : '';
+
     try {
         // Try dynamic module loading first
         const response = await fetch(`${API_BASE}/api/modules/${module}?content=${encodeURIComponent(fileData.content)}`);
@@ -283,6 +322,11 @@ async function renderUserInput(fileData) {
             const moduleData = await response.json();
             if (moduleData.user_input_html) {
                 container.innerHTML = moduleData.user_input_html;
+                // Try to restore value if compatible
+                const newInput = document.getElementById('defaultInput');
+                if (newInput && preservedValue) {
+                    newInput.value = preservedValue;
+                }
                 return;
             }
         }
@@ -296,13 +340,13 @@ async function renderUserInput(fileData) {
             renderAskQuestionToolInput(fileData.content, container);
             break;
         default:
-            renderDefaultInput(container);
+            renderDefaultInput(container, preservedValue);
     }
 }
 
-function renderDefaultInput(container) {
+function renderDefaultInput(container, preservedValue = '') {
     container.innerHTML = `
-        <textarea id="userInput" class="user-input-textarea" placeholder="Digite seu input aqui..."></textarea>
+        <textarea id="defaultInput" class="user-input-textarea" placeholder="Digite seu input aqui...">${preservedValue}</textarea>
     `;
 }
 
@@ -460,7 +504,7 @@ function collectUserInput() {
         default:
             return {
                 type: 'text',
-                data: document.getElementById('userInput')?.value || ''
+                data: document.getElementById('defaultInput')?.value || ''
             };
     }
 }
