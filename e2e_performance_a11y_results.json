@@ -1,0 +1,554 @@
+{
+  "test_name": "Performance and Accessibility",
+  "status": "passed",
+  "screenshots": [
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120526_03_realtime_status_Chromium.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120527_05_memory_test_Chromium.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120527_06_accessibility_Chromium.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120529_07_responsive_mobile_Chromium.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120529_08_responsive_desktop_Chromium.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120529_09_browser_chromium_Chromium.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120534_03_realtime_status_Firefox.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120534_05_memory_test_Firefox.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120534_06_accessibility_Firefox.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120536_07_responsive_mobile_Firefox.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120536_08_responsive_desktop_Firefox.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120536_09_browser_firefox_Firefox.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120540_03_realtime_status_WebKit.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120540_05_memory_test_WebKit.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120540_06_accessibility_WebKit.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120542_07_responsive_mobile_WebKit.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120542_08_responsive_desktop_WebKit.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\screenshots\\performance-a11y\\20260308_120542_09_browser_webkit_WebKit.png"
+  ],
+  "error": null,
+  "test_cases": [
+    {
+      "name": "Initial Load Performance",
+      "status": "failed",
+      "checks": [],
+      "error": "'BrowserContext' object is not callable"
+    },
+    {
+      "name": "File Switching Performance",
+      "status": "failed",
+      "checks": [
+        {
+          "check": "Files available for testing",
+          "expected": "At least 1 file",
+          "actual": "No files found",
+          "passed": false
+        }
+      ]
+    },
+    {
+      "name": "Real-time Update Performance",
+      "status": "failed",
+      "checks": [
+        {
+          "check": "Connection status indicator found",
+          "passed": false,
+          "note": "No visible status indicator"
+        },
+        {
+          "check": "WebSocket support detected",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "Webhook Performance",
+      "status": "failed",
+      "checks": [
+        {
+          "check": "Webhook UI elements found",
+          "passed": false,
+          "note": "No webhook buttons found in current view"
+        },
+        {
+          "check": "Loading indicators available",
+          "passed": false
+        }
+      ]
+    },
+    {
+      "name": "Memory Usage",
+      "status": "passed",
+      "checks": [
+        {
+          "check": "Memory metrics available",
+          "passed": true,
+          "usedMB": 9.5367431640625
+        }
+      ]
+    },
+    {
+      "name": "Accessibility",
+      "status": "failed",
+      "checks": [
+        {
+          "check": "ARIA attributes present",
+          "expected": "> 0",
+          "actual": 0,
+          "passed": false,
+          "details": {
+            "ariaLabel": 0,
+            "ariaLabelledby": 0,
+            "roles": 0,
+            "total": 0
+          }
+        },
+        {
+          "check": "Images have alt text",
+          "expected": "100%",
+          "actual": "0%",
+          "passed": true,
+          "details": {
+            "total": 0,
+            "withAlt": 0,
+            "percentage": 0
+          }
+        },
+        {
+          "check": "Form inputs have labels",
+          "expected": "100%",
+          "actual": "100%",
+          "passed": true,
+          "details": {
+            "total": 0,
+            "withLabels": 0,
+            "percentage": 100
+          }
+        },
+        {
+          "check": "Keyboard navigation works",
+          "passed": false
+        },
+        {
+          "check": "Page has proper heading structure",
+          "passed": false,
+          "details": {
+            "total": 0,
+            "hasH1": false
+          }
+        },
+        {
+          "check": "Skip links present",
+          "passed": false,
+          "count": 0
+        },
+        {
+          "check": "ARIA live regions for dynamic content",
+          "passed": false,
+          "count": 0
+        }
+      ]
+    },
+    {
+      "name": "Responsive Design",
+      "status": "failed",
+      "checks": [
+        {
+          "check": "Responsive: Desktop (1920x1080)",
+          "passed": false,
+          "hasHorizontalScroll": false,
+          "contentVisible": false
+        },
+        {
+          "check": "Responsive: Laptop (1366x768)",
+          "passed": false,
+          "hasHorizontalScroll": false,
+          "contentVisible": false
+        },
+        {
+          "check": "Responsive: Tablet (768x1024)",
+          "passed": false,
+          "hasHorizontalScroll": false,
+          "contentVisible": false
+        },
+        {
+          "check": "Responsive: Mobile (375x667)",
+          "passed": false,
+          "hasHorizontalScroll": false,
+          "contentVisible": false
+        }
+      ]
+    },
+    {
+      "name": "Browser Compatibility (Chromium)",
+      "status": "failed",
+      "checks": [
+        {
+          "check": "No console errors",
+          "passed": true,
+          "errorCount": 0,
+          "errors": []
+        },
+        {
+          "check": "WebSocket support",
+          "passed": true
+        },
+        {
+          "check": "Interactive elements available",
+          "passed": false,
+          "details": {
+            "buttons": 0,
+            "inputs": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "Initial Load Performance",
+      "status": "failed",
+      "checks": [],
+      "error": "'BrowserContext' object is not callable"
+    },
+    {
+      "name": "File Switching Performance",
+      "status": "failed",
+      "checks": [
+        {
+          "check": "Files available for testing",
+          "expected": "At least 1 file",
+          "actual": "No files found",
+          "passed": false
+        }
+      ]
+    },
+    {
+      "name": "Real-time Update Performance",
+      "status": "failed",
+      "checks": [
+        {
+          "check": "Connection status indicator found",
+          "passed": false,
+          "note": "No visible status indicator"
+        },
+        {
+          "check": "WebSocket support detected",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "Webhook Performance",
+      "status": "failed",
+      "checks": [
+        {
+          "check": "Webhook UI elements found",
+          "passed": false,
+          "note": "No webhook buttons found in current view"
+        },
+        {
+          "check": "Loading indicators available",
+          "passed": false
+        }
+      ]
+    },
+    {
+      "name": "Memory Usage",
+      "status": "failed",
+      "checks": [
+        {
+          "check": "Memory metrics available",
+          "passed": false,
+          "note": "performance.memory not available in this browser"
+        }
+      ]
+    },
+    {
+      "name": "Accessibility",
+      "status": "failed",
+      "checks": [
+        {
+          "check": "ARIA attributes present",
+          "expected": "> 0",
+          "actual": 0,
+          "passed": false,
+          "details": {
+            "ariaLabel": 0,
+            "ariaLabelledby": 0,
+            "roles": 0,
+            "total": 0
+          }
+        },
+        {
+          "check": "Images have alt text",
+          "expected": "100%",
+          "actual": "0%",
+          "passed": true,
+          "details": {
+            "total": 0,
+            "withAlt": 0,
+            "percentage": 0
+          }
+        },
+        {
+          "check": "Form inputs have labels",
+          "expected": "100%",
+          "actual": "100%",
+          "passed": true,
+          "details": {
+            "total": 0,
+            "withLabels": 0,
+            "percentage": 100
+          }
+        },
+        {
+          "check": "Keyboard navigation works",
+          "passed": false
+        },
+        {
+          "check": "Page has proper heading structure",
+          "passed": false,
+          "details": {
+            "total": 0,
+            "hasH1": false
+          }
+        },
+        {
+          "check": "Skip links present",
+          "passed": false,
+          "count": 0
+        },
+        {
+          "check": "ARIA live regions for dynamic content",
+          "passed": false,
+          "count": 0
+        }
+      ]
+    },
+    {
+      "name": "Responsive Design",
+      "status": "failed",
+      "checks": [
+        {
+          "check": "Responsive: Desktop (1920x1080)",
+          "passed": false,
+          "hasHorizontalScroll": false,
+          "contentVisible": false
+        },
+        {
+          "check": "Responsive: Laptop (1366x768)",
+          "passed": false,
+          "hasHorizontalScroll": false,
+          "contentVisible": false
+        },
+        {
+          "check": "Responsive: Tablet (768x1024)",
+          "passed": false,
+          "hasHorizontalScroll": false,
+          "contentVisible": false
+        },
+        {
+          "check": "Responsive: Mobile (375x667)",
+          "passed": false,
+          "hasHorizontalScroll": false,
+          "contentVisible": false
+        }
+      ]
+    },
+    {
+      "name": "Browser Compatibility (Firefox)",
+      "status": "failed",
+      "checks": [
+        {
+          "check": "No console errors",
+          "passed": true,
+          "errorCount": 0,
+          "errors": []
+        },
+        {
+          "check": "WebSocket support",
+          "passed": true
+        },
+        {
+          "check": "Interactive elements available",
+          "passed": false,
+          "details": {
+            "buttons": 0,
+            "inputs": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "Initial Load Performance",
+      "status": "failed",
+      "checks": [],
+      "error": "'BrowserContext' object is not callable"
+    },
+    {
+      "name": "File Switching Performance",
+      "status": "failed",
+      "checks": [
+        {
+          "check": "Files available for testing",
+          "expected": "At least 1 file",
+          "actual": "No files found",
+          "passed": false
+        }
+      ]
+    },
+    {
+      "name": "Real-time Update Performance",
+      "status": "failed",
+      "checks": [
+        {
+          "check": "Connection status indicator found",
+          "passed": false,
+          "note": "No visible status indicator"
+        },
+        {
+          "check": "WebSocket support detected",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "Webhook Performance",
+      "status": "failed",
+      "checks": [
+        {
+          "check": "Webhook UI elements found",
+          "passed": false,
+          "note": "No webhook buttons found in current view"
+        },
+        {
+          "check": "Loading indicators available",
+          "passed": false
+        }
+      ]
+    },
+    {
+      "name": "Memory Usage",
+      "status": "failed",
+      "checks": [
+        {
+          "check": "Memory metrics available",
+          "passed": false,
+          "note": "performance.memory not available in this browser"
+        }
+      ]
+    },
+    {
+      "name": "Accessibility",
+      "status": "failed",
+      "checks": [
+        {
+          "check": "ARIA attributes present",
+          "expected": "> 0",
+          "actual": 0,
+          "passed": false,
+          "details": {
+            "ariaLabel": 0,
+            "ariaLabelledby": 0,
+            "roles": 0,
+            "total": 0
+          }
+        },
+        {
+          "check": "Images have alt text",
+          "expected": "100%",
+          "actual": "0%",
+          "passed": true,
+          "details": {
+            "total": 0,
+            "withAlt": 0,
+            "percentage": 0
+          }
+        },
+        {
+          "check": "Form inputs have labels",
+          "expected": "100%",
+          "actual": "100%",
+          "passed": true,
+          "details": {
+            "total": 0,
+            "withLabels": 0,
+            "percentage": 100
+          }
+        },
+        {
+          "check": "Keyboard navigation works",
+          "passed": false
+        },
+        {
+          "check": "Page has proper heading structure",
+          "passed": false,
+          "details": {
+            "total": 0,
+            "hasH1": false
+          }
+        },
+        {
+          "check": "Skip links present",
+          "passed": false,
+          "count": 0
+        },
+        {
+          "check": "ARIA live regions for dynamic content",
+          "passed": false,
+          "count": 0
+        }
+      ]
+    },
+    {
+      "name": "Responsive Design",
+      "status": "failed",
+      "checks": [
+        {
+          "check": "Responsive: Desktop (1920x1080)",
+          "passed": false,
+          "hasHorizontalScroll": false,
+          "contentVisible": false
+        },
+        {
+          "check": "Responsive: Laptop (1366x768)",
+          "passed": false,
+          "hasHorizontalScroll": false,
+          "contentVisible": false
+        },
+        {
+          "check": "Responsive: Tablet (768x1024)",
+          "passed": false,
+          "hasHorizontalScroll": false,
+          "contentVisible": false
+        },
+        {
+          "check": "Responsive: Mobile (375x667)",
+          "passed": false,
+          "hasHorizontalScroll": false,
+          "contentVisible": false
+        }
+      ]
+    },
+    {
+      "name": "Browser Compatibility (WebKit)",
+      "status": "failed",
+      "checks": [
+        {
+          "check": "No console errors",
+          "passed": true,
+          "errorCount": 0,
+          "errors": []
+        },
+        {
+          "check": "WebSocket support",
+          "passed": true
+        },
+        {
+          "check": "Interactive elements available",
+          "passed": false,
+          "details": {
+            "buttons": 0,
+            "inputs": 0
+          }
+        }
+      ]
+    }
+  ],
+  "start_time": "2026-03-08T12:05:24.572768",
+  "end_time": "2026-03-08T12:05:42.900808"
+}
