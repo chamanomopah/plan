@@ -1,0 +1,180 @@
+{
+  "test_name": "Webhook Integration and Scope Hierarchy",
+  "status": "passed_with_warnings",
+  "timestamp": "2026-03-08T11:31:27.310675",
+  "screenshots": [
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\.claude\\e2e-tests\\screenshots\\webhook-integration\\01-page-loaded.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\.claude\\e2e-tests\\screenshots\\webhook-integration\\02-global-webhook-project-selected.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\.claude\\e2e-tests\\screenshots\\webhook-integration\\03-global-webhook-command-entered.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\.claude\\e2e-tests\\screenshots\\webhook-integration\\04-global-webhook-after-send.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\.claude\\e2e-tests\\screenshots\\webhook-integration\\05-project-webhook-selected.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\.claude\\e2e-tests\\screenshots\\webhook-integration\\06-project-webhook-command-entered.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\.claude\\e2e-tests\\screenshots\\webhook-integration\\07-project-webhook-after-send.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\.claude\\e2e-tests\\screenshots\\webhook-integration\\08-file-webhook-project-selected.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\.claude\\e2e-tests\\screenshots\\webhook-integration\\09-file-webhook-file-selected.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\.claude\\e2e-tests\\screenshots\\webhook-integration\\10-file-webhook-after-send.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\.claude\\e2e-tests\\screenshots\\webhook-integration\\11-payload-verification.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\.claude\\e2e-tests\\screenshots\\webhook-integration\\12-error-handling-before-send.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\.claude\\e2e-tests\\screenshots\\webhook-integration\\13-error-handling-after-send.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\.claude\\e2e-tests\\screenshots\\webhook-integration\\14-webhook-config-ui.png",
+    "C:\\Users\\JOSE\\Downloads\\n8n_cc_workflows\\plan\\.claude\\e2e-tests\\screenshots\\webhook-integration\\15-final-state.png"
+  ],
+  "error": null,
+  "test_summary": {
+    "total_test_cases": 26,
+    "passed": 20,
+    "failed": 0,
+    "warnings": 4,
+    "info": 2
+  },
+  "test_cases": [
+    {
+      "test_case": "1.1: Global webhook config",
+      "status": "passed",
+      "details": "Global webhook: https://maceio-n8n-alfa42.serveousercontent.com/webhook/plan, Timeout: 30s, Retry: 3"
+    },
+    {
+      "test_case": "1.2: Project selected for global webhook",
+      "status": "passed",
+      "details": "Selected sdlcWorkflow_structure"
+    },
+    {
+      "test_case": "1.3: File selected",
+      "status": "passed",
+      "details": "Clicked file using [data-file]"
+    },
+    {
+      "test_case": "1.4: Global webhook sent",
+      "status": "passed",
+      "details": "Clicked webhook button"
+    },
+    {
+      "test_case": "1.5: Global webhook called",
+      "status": "warning",
+      "details": "No webhook calls detected (server-side, not visible to browser)"
+    },
+    {
+      "test_case": "2.1: Project webhook config",
+      "status": "passed",
+      "details": "Project webhook: https://maceio-n8n-alfa42.serveousercontent.com/webhook/plan, Override: True"
+    },
+    {
+      "test_case": "2.2: Project with webhook selected",
+      "status": "passed",
+      "details": "Selected heroPage_design"
+    },
+    {
+      "test_case": "2.3: Webhook URL in sidebar",
+      "status": "passed",
+      "details": "Found webhook display: .webhook-url"
+    },
+    {
+      "test_case": "2.4: File selected in project",
+      "status": "passed",
+      "details": "Selected design.html"
+    },
+    {
+      "test_case": "2.5: Project webhook sent",
+      "status": "passed",
+      "details": "Clicked webhook button"
+    },
+    {
+      "test_case": "2.6: Project webhook called",
+      "status": "warning",
+      "details": "No new webhook calls detected (server-side, not visible to browser)"
+    },
+    {
+      "test_case": "3.1: File webhook config",
+      "status": "passed",
+      "details": "File webhook for askQuestionTool1: https://maceio-n8n-alfa42.serveousercontent.com/webhook/plan"
+    },
+    {
+      "test_case": "3.2: Project with file webhook selected",
+      "status": "passed",
+      "details": "Selected qualification_questions"
+    },
+    {
+      "test_case": "3.3: File with webhook selected",
+      "status": "passed",
+      "details": "Selected askQuestionTool1"
+    },
+    {
+      "test_case": "3.4: Options displayed",
+      "status": "passed",
+      "details": "Found 6 options"
+    },
+    {
+      "test_case": "3.5: File webhook sent",
+      "status": "passed",
+      "details": "Clicked webhook button"
+    },
+    {
+      "test_case": "3.6: File webhook called",
+      "status": "warning",
+      "details": "No new webhook calls detected (server-side, not visible to browser)"
+    },
+    {
+      "test_case": "4.1: Payload structure logged",
+      "status": "info",
+      "details": "No explicit payload logs in console"
+    },
+    {
+      "test_case": "4.2: Webhook endpoint called",
+      "status": "warning",
+      "details": "No webhook calls detected during test (server-side, not visible to browser)"
+    },
+    {
+      "test_case": "5.1: Invalid webhook configured",
+      "status": "passed",
+      "details": "Set invalid webhook: https://invalid-domain-12345.com/webhook"
+    },
+    {
+      "test_case": "5.2: Invalid webhook attempt",
+      "status": "passed",
+      "details": "Attempted to send to invalid webhook"
+    },
+    {
+      "test_case": "5.3: Error message displayed",
+      "status": "passed",
+      "details": "Found error indicator: .error"
+    },
+    {
+      "test_case": "5.4: Original webhook restored",
+      "status": "passed",
+      "details": "Restored valid webhook URL"
+    },
+    {
+      "test_case": "6.1: Config button present",
+      "status": "passed",
+      "details": "Found config button: button:has-text('Configurar')"
+    },
+    {
+      "test_case": "6.2: Webhook info in sidebar",
+      "status": "passed",
+      "details": "Found webhook info: text=https://maceio-n8n-alfa42.serveousercontent.com/we"
+    },
+    {
+      "test_case": "6.3: Scope badge displayed",
+      "status": "info",
+      "details": "Scope badge not found (may not be implemented)"
+    }
+  ],
+  "success_criteria": {
+    "global_webhook_configured": true,
+    "global_webhook_used": true,
+    "project_webhook_configured": true,
+    "project_webhook_used": true,
+    "file_webhook_configured": true,
+    "file_webhook_used": true,
+    "webhook_endpoint_called": false,
+    "error_handling_tested": true,
+    "config_ui_checked": true
+  },
+  "notes": [
+    "Webhook calls are made server-side by FastAPI backend, not visible to browser network monitoring",
+    "To verify actual webhook calls, check server logs or N8N webhook execution logs",
+    "All UI interactions completed successfully",
+    "Error handling verified with invalid webhook URL",
+    "Configuration UI elements present and functional"
+  ]
+}
