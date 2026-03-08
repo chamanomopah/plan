@@ -11,7 +11,7 @@ Instead of asking users what feature to test, the `/e2e-test-design` command now
 1. **Receives the plan** (already implemented spec file)
 2. **Detects project structure** automatically
 3. **Generates N tests** based on actual testing needs
-4. **Returns summary** with count and file paths
+4. **Returns ONLY count + file paths** (no emojis, no explanations)
 
 ## Workflow Integration
 
@@ -77,21 +77,17 @@ The command automatically detects:
 
 ## Return Format
 
-```json
-{
-  "plan_analyzed": "specs/feature-example.md",
-  "plan_type": "Feature",
-  "tests_created": 5,
-  "test_files": [
-    ".claude/e2e-tests/feature-example/01-main-journey.md",
-    ".claude/e2e-tests/feature-example/02-error-handling.md"
-  ],
-  "coverage_summary": {
-    "user_stories": 2,
-    "acceptance_criteria": 8
-  }
-}
 ```
+5 test cases created
+
+.claude/e2e-tests/feature-example/01-main-journey.md
+.claude/e2e-tests/feature-example/02-error-handling.md
+.claude/e2e-tests/feature-example/03-edge-cases.md
+.claude/e2e-tests/feature-example/04-integration.md
+.claude/e2e-tests/feature-example/05-regression.md
+```
+
+**NO emojis, NO explanations, NO summaries.** Just count + file paths.
 
 ## ZTE Alignment
 

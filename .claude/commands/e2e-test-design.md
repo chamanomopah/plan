@@ -9,6 +9,16 @@ allowed-tools: Read, Grep, Glob, Write
 
 Automatically analyze implemented plan and generate comprehensive E2E tests based on spec file analysis.
 
+**OUTPUT REQUIREMENT: Return ONLY count + file paths. No emojis, no explanations, no summaries.**
+
+Example output:
+```
+5 test cases created
+
+.claude/e2e-tests/plan-name/01-test.md
+.claude/e2e-tests/plan-name/02-test.md
+```
+
 ## Variables
 
 - `spec_file`: $1 - Path to the spec/plan file to analyze (default: searches specs/ directory)
@@ -19,7 +29,7 @@ Automatically analyze implemented plan and generate comprehensive E2E tests base
 2. **Analyze Implementation**: Detect project structure and identify what needs testing
 3. **Generate Test Strategy**: Create comprehensive E2E tests based on implementation analysis
 4. **Create Test Files**: Generate individual test files for each user journey
-5. **Report Results**: Return summary of created tests
+5. **Report Results**: Return ONLY count + file paths (no emojis, no explanations)
 
 ## Auto-Analysis Process
 
@@ -122,9 +132,23 @@ Generate tests based on plan complexity:
 | **Bug** | 2-3 | Reproduction, fix verification, regression |
 | **Feature** | 3+ | User journeys, acceptance criteria, edge cases |
 
-## Output Format
+## Required Output Format
 
-After generating tests, return JSON summary:
+**CRITICAL**: After generating tests, return ONLY:
+
+```
+[N] test cases created
+
+.claude/e2e-tests/[plan-name]/01-[test-name].md
+.claude/e2e-tests/[plan-name]/02-[test-name].md
+.claude/e2e-tests/[plan-name]/03-[test-name].md
+```
+
+**NO emojis, NO explanations, NO summaries.** Just count + file paths.
+
+## Internal Output Format (JSON)
+
+For internal processing, also generate JSON summary:
 
 ```json
 {
@@ -173,21 +197,17 @@ When analyzing the spec:
 2. Detects it's a Feature plan with authentication flows
 3. Identifies routes: /login, /register, /logout
 4. Detects components: LoginForm, RegisterForm
-5. Generates 5 comprehensive E2E tests
-6. Returns summary of created tests
+5. Generates comprehensive E2E tests
+6. Returns concise output:
 
 # Output:
-{
-  "plan_analyzed": "specs/feature-user-authentication.md",
-  "tests_created": 5,
-  "test_files": [
-    ".claude/e2e-tests/feature-user-authentication/01-user-login.md",
-    ".claude/e2e-tests/feature-user-authentication/02-user-registration.md",
-    ".claude/e2e-tests/feature-user-authentication/03-password-reset.md",
-    ".claude/e2e-tests/feature-user-authentication/04-session-management.md",
-    ".claude/e2e-tests/feature-user-authentication/05-error-handling.md"
-  ]
-}
+5 test cases created
+
+.claude/e2e-tests/feature-user-authentication/01-user-login.md
+.claude/e2e-tests/feature-user-authentication/02-user-registration.md
+.claude/e2e-tests/feature-user-authentication/03-password-reset.md
+.claude/e2e-tests/feature-user-authentication/04-session-management.md
+.claude/e2e-tests/feature-user-authentication/05-error-handling.md
 ```
 
 ## Integration with Testing Commands
