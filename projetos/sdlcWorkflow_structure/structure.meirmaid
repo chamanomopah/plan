@@ -17,7 +17,8 @@ flowchart TD
     Review -->|Correções| Development
 
     Deploy --> Monitoring[Monitoramento]
-    Monitoring --> Maintenance[Manutenção]
+    Monitoring --> Validation[Validação]
+    Validation --> Maintenance[Manutenção]
 
     Maintenance -->|Novas Features| Planning
     Maintenance -->|Bugs| Analysis
